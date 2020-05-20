@@ -1,6 +1,6 @@
 // Variables
 // -----------------------------------------------------------------------------
-var NUM_POINTS = 100;
+var NUM_POINTS = 50;
 
 // Functions
 // -----------------------------------------------------------------------------
@@ -28,8 +28,8 @@ function hillsAndValleys() {
 
 			// get height map / z
 			var z = 0;
-			z += sine(2,5,0,x);
-			z += sine(1,7,0,y);
+			z += sine(0.2,1,0,x);
+			z += sine(0.15,1,0.1,y);
 
 			vertices.push(new THREE.Vector3(x,y,z));
 		}
@@ -43,10 +43,14 @@ function triangulateVertices(vertices) {
 
 	var faces = []
 	// hacky of generating triangles because I know how the points are split
-	for (var i = 0; i < vertices.length - NUM_POINTS; i += 2) {
-		// clockwise order for now
-		faces.push(new THREE.Face3(i,i + 1,i + NUM_POINTS)); 
-		faces.push(new THREE.Face3(i + 1,i + 1 + NUM_POINTS,i + NUM_POINTS));
+	for (var i = 0; i < NUM_POINTS - 1; i ++) {
+		for (var j = 0; j < NUM_POINTS - 1; j ++) {
+
+			var index = i * NUM_POINTS + j;
+			// counter clockwise order
+			faces.push(new THREE.Face3(index,index + NUM_POINTS,index + 1));
+			faces.push(new THREE.Face3(index + 1,index + NUM_POINTS,index + 1 + NUM_POINTS));
+		}
 	}
 
 	return faces;
@@ -65,16 +69,18 @@ var renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight/2);
 document.body.appendChild( renderer.domElement);
 
+// axis helper
+var axesHelper = new THREE.AxesHelper( 20 );
+scene.add( axesHelper );
 
 // White directional light at half intensity shining from the top.
-var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
+var directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
 directionalLight.position = new THREE.Vector3( 0, 0, 6);
 scene.add( directionalLight );
 
 // plane
 var vertices = hillsAndValleys();
 var faces = triangulateVertices(vertices);
-console.log(faces);
 var holes = [];
 var triangles;
 var geometry = new THREE.Geometry();
@@ -86,17 +92,18 @@ var material = new THREE.MeshPhongMaterial(
 		specular: new THREE.Color(0.8,0.8,0.8),
 		shininess: 30,
 		flatShading: false,
-		wireframe: true,
-		wireframeLinewidth: 10,
+		wireframe: false,
+		wireframeLinewidth: 1,
 	} 
 );
 geometry.vertices = vertices;
 geometry.faces = faces;
-
 var plane = new THREE.Mesh( geometry, material );
 scene.add( plane );
 
-camera.position.z = 5;
+plane.geometry.computeVertexNormals();
+
+camera.position.z = 6;
 
 // rotate plane
 var rotate = function (x,y,z) {
@@ -104,11 +111,14 @@ var rotate = function (x,y,z) {
 	plane.rotation.y = y;
 	plane.rotation.z = z;
 };
-rotate(-0.725,0,0); // rotate 45 for now
+rotate(-0.4,1.5,0); // rotate 45 for now
 
 function animate() {
 	requestAnimationFrame( animate );
 	renderer.render( scene, camera );
+
+	plane.rotation.x += 0.01;
+	plane.rotation.y += 0.01;
 }
 animate();
 
