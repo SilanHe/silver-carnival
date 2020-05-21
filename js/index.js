@@ -1,6 +1,6 @@
 // Variables
 // -----------------------------------------------------------------------------
-var NUM_POINTS = 50;
+var NUM_POINTS = 100;
 
 // Functions
 // -----------------------------------------------------------------------------
@@ -11,8 +11,8 @@ function sine(amplitude, frequency, phase, t) {
 
 // generate preset hills and valleys
 function hillsAndValleys() {
-	var min = -2;
-	var max = 2;
+	var min = -3;
+	var max = 3;
 	var range = Math.abs(max - min);
 	var numPointsEdge = NUM_POINTS;
 	var increment = range/numPointsEdge;
@@ -30,6 +30,9 @@ function hillsAndValleys() {
 			var z = 0;
 			z += sine(0.2,1,0,x);
 			z += sine(0.15,1,0.1,y);
+			z += sine(0.1,0.75,0.2,x+y);
+			z += sine(0.2,0.5,0.3,2 * x+y);
+			z += sine(0.2,0.25,0.3,2 * x + 3 * y);
 
 			vertices.push(new THREE.Vector3(x,y,z));
 		}
@@ -74,8 +77,8 @@ var axesHelper = new THREE.AxesHelper( 20 );
 scene.add( axesHelper );
 
 // White directional light at half intensity shining from the top.
-var directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
-directionalLight.position = new THREE.Vector3( 0, 0, 6);
+var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.7 );
+directionalLight.position.set( 0, 0, 6);
 scene.add( directionalLight );
 
 // plane
@@ -86,11 +89,11 @@ var triangles;
 var geometry = new THREE.Geometry();
 var material = new THREE.MeshPhongMaterial( 
 	{
-		color: 0xffff00,
+		color: 0xffffff,
 		side: THREE.DoubleSide,
-		emissive: new THREE.Color(0.5,0.5,0.5),
-		specular: new THREE.Color(0.8,0.8,0.8),
-		shininess: 30,
+		emissive: new THREE.Color(0.01,0.01,0.01),
+		specular: new THREE.Color(1,1,1),
+		shininess: 10,
 		flatShading: false,
 		wireframe: false,
 		wireframeLinewidth: 1,
@@ -111,14 +114,14 @@ var rotate = function (x,y,z) {
 	plane.rotation.y = y;
 	plane.rotation.z = z;
 };
-rotate(-0.4,1.5,0); // rotate 45 for now
+rotate(-0.3,0,0); // rotate 45 for now
 
 function animate() {
 	requestAnimationFrame( animate );
 	renderer.render( scene, camera );
 
-	plane.rotation.x += 0.01;
-	plane.rotation.y += 0.01;
+	// plane.rotation.x += 0.01;
+	// plane.rotation.y += 0.01;
 }
 animate();
 
