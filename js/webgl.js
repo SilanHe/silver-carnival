@@ -2,6 +2,10 @@
 // -----------------------------------------------------------------------------
 var NUM_POINTS = 350;
 var CAMERA_FOV = 50;
+const ChoiceEnum = {
+	VALLEY: 0,
+	HILL: 1, 
+};
 
 // Functions
 // -----------------------------------------------------------------------------
@@ -20,7 +24,10 @@ function sine(amplitude, frequency, phase, t) {
 /**
  * generate preset hills and valleys
  */
-function hillsAndValleys() {
+function hillsAndValleys(seed = 1) {
+	noise.seed(seed);
+
+	var amplitude = 1.2;
 	var min = -17.5;
 	var max = 17.5;
 	var range = Math.abs(max - min);
@@ -37,12 +44,7 @@ function hillsAndValleys() {
 			var y = min + increment * j;
 
 			// get height map / z
-			var z = 0;
-			z += sine( 0.5, 0.1, 0, x + y);
-			z += sine( 0.4, 0.2, 0.5, x - y);
-			z += sine( 0.2, 0.1, 0.2, x);
-			z += sine( 0.5, 0.1, 0.3, y);
-			z += sine(0.3,0.1,0.3,2 * x + 3 * y);
+			var z = amplitude * noise.perlin2(x / 3,y / 3);
 
 			vertices.push(new THREE.Vector3(x,y,z));
 		}
@@ -86,7 +88,7 @@ function getLocalExtremaInCenter(vertices) {
 
 	// approximate center area tracking variables
 	var centerWidth = 50;
-	var startRow = NUM_POINTS / 2 - centerWidth / 2;
+	var startRow = Math.abs(Math.floor(NUM_POINTS / 2 - centerWidth / 2));
 	var endRow = startRow + centerWidth;
 
 	// for each index in the approximate center area, get local min index and local max index
@@ -94,21 +96,23 @@ function getLocalExtremaInCenter(vertices) {
 		for (var j = startRow; j < endRow; j++) {
 
 			// convert from rowXcol to index in vertices list
-			var curIndex = i * 350 + j;
+			var curIndex = i * NUM_POINTS + j;
 
 			// update local min and local max
 
-			if (vertices[i] > localMax){
-				localMaxIndex = i;
+			if (vertices[curIndex].z > localMax){
+				localMax = vertices[curIndex].z;
+				localMaxIndex = curIndex;
 			}
 	
-			if (vertices[i] < localMin){
-				localMinIndex = i;
+			if (vertices[curIndex].z < localMin){
+				localMin = vertices[curIndex].z;
+				localMinIndex = curIndex;
 			}
 		}
 	}
 
-	return localMaxIndex, localMinIndex;
+	return [localMaxIndex, localMinIndex];
 }
 
 /**
@@ -122,6 +126,17 @@ function geometryConstructorWrapper(vertices, faces) {
 	geometry.faces = faces;
 	
 	return geometry;
+}
+
+function getRedMaterial() {
+	var material = new THREE.MeshBasicMaterial( 
+		{
+			color: 0xff0000,
+			side: THREE.DoubleSide,
+		} 
+	);
+
+	return material;
 }
 
 function getMatteMaterial() {
@@ -199,11 +214,11 @@ function getMathematicaLights() {
 }
 
 /**
- * Generic scene generation function
+ * Generic scene generation function with default settings
  * @param {THREE.Mesh} mesh 
  * @param {Array of THREE.Light} lights 
  */
-function generateScene(mesh, lights) {
+function generateScene(group, lights) {
 	var scene = new THREE.Scene();
 	var camera = new THREE.PerspectiveCamera( CAMERA_FOV, window.innerWidth / window.innerHeight, 0.1, 1000);
 	var renderer = new THREE.WebGLRenderer();
@@ -212,14 +227,11 @@ function generateScene(mesh, lights) {
 	renderer.setSize( window.innerWidth, window.innerHeight);
 
 	// axis helper
-	var axesHelper = new THREE.AxesHelper( 20 );
-	scene.add( axesHelper );
-	document.body.appendChild( renderer.domElement);
+	// var axesHelper = new THREE.AxesHelper( 20 );
+	// scene.add( axesHelper );
+	// document.body.appendChild( renderer.domElement);
 
-	// add our mesh
-	scene.add(mesh);
-	// need this for mesh plane to be visible
-	mesh.geometry.computeVertexNormals();
+	scene.add(group);
 
 	// add our lights
 	for (var i = 0; i < lights.length; i ++) {
@@ -230,36 +242,87 @@ function generateScene(mesh, lights) {
 		// scene.add( helper );
 	}
 
-	console.log(scene);
-	console.log(camera);
-
 	function animate() {
 		requestAnimationFrame( animate );
-		renderer.render( scene, camera );
 
-		// plane.rotation.x += 0.01;
-		// plane.rotation.y += 0.01;
+		// // uncomment debug graphically by rotating plane
+		// group.rotation.x += 0.01;
+		// group.rotation.y += 0.01;
+
+		renderer.render( scene, camera );
 	}
+
+	// remember these initial values
+	// for window resize
+	var tanFOV = Math.tan( ( ( Math.PI / 180 ) * CAMERA_FOV / 2 ) );
+	var windowHeight = window.innerHeight;
+
+	function onWindowResize( event ) {
+
+	    camera.aspect = window.innerWidth / window.innerHeight;
+	    
+	    // adjust the FOV
+	    camera.fov = ( 360 / Math.PI ) * Math.atan( tanFOV * ( window.innerHeight / windowHeight ) );
+	    
+	    camera.updateProjectionMatrix();
+	    camera.lookAt( scene.position );
+
+	    renderer.setSize(window.innerWidth, window.innerHeight );
+	    renderer.render( scene, camera );
+	}
+
+	window.addEventListener( 'resize', onWindowResize, false );
+
 	animate();
+
+	return renderer;
 }
 
-function testGenerateScene() {
+function generateSmallRedSphere() {
+	var sphereGeometry = new THREE.SphereGeometry( 0.1, 32, 32 );
+	var redMaterial = getRedMaterial();
+	var sphere = new THREE.Mesh(sphereGeometry, redMaterial);
+
+	return sphere;
+}
+
+function generateBigRedSphere() {
+	var sphereGeometry = new THREE.SphereGeometry( 1, 32, 32 );
+	var redMaterial = getRedMaterial();
+	var sphere = new THREE.Mesh(sphereGeometry, redMaterial);
+
+	return sphere;
+}
+
+function generateSceneSingleDirectionalLight(slant, lightSlant, disk, choice) {
 	var vertices = hillsAndValleys();
 	var faces = triangulateVertices(vertices);
 	var geometry = geometryConstructorWrapper(vertices, faces);
 	var material = getGlossyMaterial();
-
 	var mesh = new THREE.Mesh(geometry, material);
-	mesh.rotation.set(15,0,0);
+	mesh.geometry.computeVertexNormals();
+	var hillAndValleyIndices = getLocalExtremaInCenter(vertices);
 
-	var lights = [getDirectionalLight(60)];
+	disk.position.set(vertices[hillAndValleyIndices[choice]].x, vertices[hillAndValleyIndices[choice]].y, vertices[hillAndValleyIndices[choice]].z);
 
-	generateScene(mesh, lights);
+	var group = new THREE.Group();
+	group.add(disk);
+	group.add(mesh);
+
+	group.rotation.set(-slant/180 * Math.PI,0,0);
+
+	var lights = [getDirectionalLight(lightSlant)];
+
+	return generateScene(group, lights);
 }
 
-// INIT
+// TEST
+function testDirectionalLight() {
+	domDirectionalLightTest_30_60_1 = generateSceneSingleDirectionalLight(30, 60, generateBigRedSphere(), ChoiceEnum.HILL);
+	document.body.appendChild( domDirectionalLightTest_30_60_1.domElement);
+}
 
-testGenerateScene();
+
 
 
 // UI
@@ -267,27 +330,3 @@ testGenerateScene();
 
 // Event Listeners
 // -----------------------------------------------------------------------------
-// window.addEventListener( 'resize', onWindowResize, false );
-
-// // remember these initial values
-// // for window resize
-// var tanFOV = Math.tan( ( ( Math.PI / 180 ) * CAMERA_FOV / 2 ) );
-// var windowHeight = window.innerHeight;
-
-// /**
-//  * On window resize, properly scale our generated planes
-//  * @param {*} event 
-//  */
-// function onWindowResize( event ) {
-
-//     camera.aspect = window.innerWidth / window.innerHeight;
-    
-//     // adjust the FOV
-//     camera.fov = ( 360 / Math.PI ) * Math.atan( tanFOV * ( window.innerHeight / windowHeight ) );
-    
-//     camera.updateProjectionMatrix();
-//     camera.lookAt( scene.position );
-
-//     renderer.setSize(window.innerWidth, window.innerHeight/2 );
-//     renderer.render( scene, camera );
-// }
