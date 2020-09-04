@@ -5,6 +5,16 @@ domDirectionalLightTest_30_60_2 = generateSceneSingleDirectionalLight(30, 60, ge
 /* create timeline */
 var timeline = [];
 
+timeline.push({
+  type: 'fullscreen',
+  fullscreen_mode: true
+});
+
+timeline.push({
+  type: 'html-keyboard-response',
+  stimulus: 'This trial will be in fullscreen mode.'
+});
+
 /* define welcome message trial */
 var welcome = {
   type: "html-keyboard-response",
@@ -58,6 +68,12 @@ var test_procedure = {
 }
 
 timeline.push(test_procedure);
+
+// exit fullscreen mode
+timeline.push({
+  type: 'fullscreen',
+  fullscreen_mode: false
+});
 
 /* start the experiment */
 jsPsych.init({
