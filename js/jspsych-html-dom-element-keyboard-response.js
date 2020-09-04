@@ -17,6 +17,12 @@ jsPsych.plugins["html-dom-element-keyboard-response"] = (function() {
     name: 'html-dom-element-keyboard-response',
     description: '',
     parameters: {
+      stimulus_name: {
+        type: jsPsych.plugins.parameterType.OBJECT,
+        pretty_name: 'Stimulus Name',
+        default: 'default html-dom-element-keyboard-response stimulus name',
+        description: 'The name of the stimulus or trial for response recording purposes.'
+      },
       stimulus: {
         type: jsPsych.plugins.parameterType.OBJECT,
         pretty_name: 'Stimulus',
@@ -92,7 +98,7 @@ jsPsych.plugins["html-dom-element-keyboard-response"] = (function() {
       // gather the data to store for the trial
       var trial_data = {
         "rt": response.rt,
-        "stimulus": trial.stimulus,
+        "stimulus": trial.stimulus_name,
         "key_press": response.key
       };
 
