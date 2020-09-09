@@ -3,9 +3,13 @@
 var NUM_POINTS = 350;
 var CAMERA_FOV = 50;
 const ChoiceEnum = {
-	VALLEY: 0,
-	HILL: 1, 
+	HILL: 0,
+	VALLEY: 1, 
 };
+var DISK_DISTANCE = 6;
+
+var WINDOW_WIDTH = 1920;
+var WINDOW_HEIGHT = 1200;
 
 // Functions
 // -----------------------------------------------------------------------------
@@ -27,7 +31,7 @@ function sine(amplitude, frequency, phase, t) {
 function hillsAndValleys(seed = 1) {
 	noise.seed(seed);
 
-	var amplitude = 1.2;
+	var amplitude = 1;
 	var min = -17.5;
 	var max = 17.5;
 	var range = Math.abs(max - min);
@@ -87,7 +91,8 @@ function getLocalExtremaInCenter(vertices) {
 	var localMinIndex = 0;
 
 	// approximate center area tracking variables
-	var centerWidth = 50;
+	var centerWidth = 100;
+	var centerWidthHalved = centerWidth/2;
 	var startRow = Math.abs(Math.floor(NUM_POINTS / 2 - centerWidth / 2));
 	var endRow = startRow + centerWidth;
 
@@ -101,19 +106,39 @@ function getLocalExtremaInCenter(vertices) {
 			// update local min and local max
 
 			if (vertices[curIndex].z > localMax){
-				localMax = vertices[curIndex].z;
-				localMaxIndex = curIndex;
+				localLocalMax = vertices[curIndex].z;
+				for (var y = - centerWidthHalved; y <= centerWidthHalved; y++) {
+					for (var x = - centerWidthHalved; x <= centerWidthHalved; x++) {
+						var curcurIndex = (i + y) * NUM_POINTS + (j + x);
+						
+						if (vertices[curcurIndex].z > localLocalMax) {
+							localLocalMax = vertices[curcurIndex].z;
+						}
+					}
+				}
+
+				if (localLocalMax == vertices[curIndex].z) {
+					localMax = vertices[curIndex].z;
+					localMaxIndex = curIndex;
+				}
 			}
 	
 			if (vertices[curIndex].z < localMin){
+				localLocalMin = vertices[curIndex].z;
+				for (var y = - centerWidthHalved; y <= centerWidthHalved; y++) {
+					for (var x = - centerWidthHalved; x <= centerWidthHalved; x++) {
+						var curcurIndex = (i + y) * NUM_POINTS + (j + x);
+						
+						if (vertices[curcurIndex].z < localLocalMin) {
+							localLocalMin = vertices[curcurIndex].z;
+						}
+					}
+				}
 				localMin = vertices[curIndex].z;
 				localMinIndex = curIndex;
 			}
 		}
 	}
-
-	localMaxIndex;
-	localMaxIndex;
 
 	return [localMaxIndex, localMinIndex];
 }
@@ -160,6 +185,7 @@ function getGlossyMaterial() {
 	var material = new THREE.MeshPhongMaterial( 
 		{
 			side: THREE.DoubleSide,
+			specular: 0x4d4d4d,
 			shininess: 51,
 			flatShading: false,
 			wireframe: false,
@@ -186,7 +212,7 @@ function getDirectionalLight(lightSlant) {
 	var LIGHT_Z_DISTANCE = 6;
 
 	// target of directional light is (0,0,0) by default
-	var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
+	var directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
 
 	if (lightSlant < 90) {
 
@@ -215,7 +241,7 @@ function getDirectionalLight(lightSlant) {
  * Returns default matlab lighting conditions
  */
 function getMatlabLight() {
-	var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
+	var directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
 	// target of directional light is (0,0,0) by default
 	directionalLight.position.set( 1, 0, 1);
 
@@ -226,13 +252,13 @@ function getMatlabLight() {
  * retuns list of 3 diffuse light sources colored red, green and blue
  */
 function getMathematicaLights() {
-	var redDirectionLight = new THREE.DirectionalLight( 0xff0000, 0.5 );
+	var redDirectionLight = new THREE.DirectionalLight( 0xff0000, 1 );
 	redDirectionLight.position.set( 1, 0, 1);
 
-	var greenDirectionLight = new THREE.DirectionalLight( 0x00ff00, 0.5 );
+	var greenDirectionLight = new THREE.DirectionalLight( 0x00ff00, 1 );
 	greenDirectionLight.position.set( 1, 1, 1);
 
-	var blueDirectionLight = new THREE.DirectionalLight( 0x0000ff, 0.5 );
+	var blueDirectionLight = new THREE.DirectionalLight( 0x0000ff, 1 );
 	blueDirectionLight.position.set( 0, 1, 1);
 
 	return [redDirectionLight, greenDirectionLight, blueDirectionLight];
@@ -245,13 +271,13 @@ function getMathematicaLights() {
  */
 function generateScene(group, lights) {
 	var scene = new THREE.Scene();
-	var camera = new THREE.PerspectiveCamera( CAMERA_FOV, window.innerWidth / window.innerHeight, 0.1, 1000);
+	var camera = new THREE.PerspectiveCamera( CAMERA_FOV, WINDOW_WIDTH/ WINDOW_HEIGHT, 0.1, 1000);
 	var renderer = new THREE.WebGLRenderer({
 		preserveDrawingBuffer: true 
 	});
 
 	camera.position.set(0,0,53);
-	renderer.setSize( window.innerWidth, window.innerHeight);
+	renderer.setSize( WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	// axis helper
 	// var axesHelper = new THREE.AxesHelper( 20 );
@@ -279,26 +305,26 @@ function generateScene(group, lights) {
 		renderer.render( scene, camera );
 	}
 
-	// remember these initial values
-	// for window resize
-	var tanFOV = Math.tan( ( ( Math.PI / 180 ) * CAMERA_FOV / 2 ) );
-	var windowHeight = window.innerHeight;
+	// // remember these initial values
+	// // for window resize
+	// var tanFOV = Math.tan( ( ( Math.PI / 180 ) * CAMERA_FOV / 2 ) );
+	// var windowHeight = window.innerHeight;
 
-	function onWindowResize( event ) {
+	// function onWindowResize( event ) {
 
-	    camera.aspect = window.innerWidth / window.innerHeight;
+	//     camera.aspect = window.innerWidth / window.innerHeight;
 	    
-	    // adjust the FOV
-	    camera.fov = ( 360 / Math.PI ) * Math.atan( tanFOV * ( window.innerHeight / windowHeight ) );
+	//     // adjust the FOV
+	//     camera.fov = ( 360 / Math.PI ) * Math.atan( tanFOV * ( window.innerHeight / windowHeight ) );
 	    
-	    camera.updateProjectionMatrix();
-	    camera.lookAt( scene.position );
+	//     camera.updateProjectionMatrix();
+	//     camera.lookAt( scene.position );
 
-	    renderer.setSize(window.innerWidth, window.innerHeight );
-	    renderer.render( scene, camera );
-	}
+	//     renderer.setSize(window.innerWidth, window.innerHeight );
+	//     renderer.render( scene, camera );
+	// }
 
-	window.addEventListener( 'resize', onWindowResize, false );
+	// window.addEventListener( 'resize', onWindowResize, false );
 
 	animate();
 
@@ -313,7 +339,7 @@ function generateSmallRedSphere() {
 	return sphere;
 }
 
-function generateBigRedSphere() {
+function generateBigRedDisk() {
 	var sphereGeometry = new THREE.SphereGeometry( 1, 32, 32 );
 	var redMaterial = getRedMaterial();
 	var sphere = new THREE.Mesh(sphereGeometry, redMaterial);
@@ -321,63 +347,152 @@ function generateBigRedSphere() {
 	return sphere;
 }
 
-function generateSceneSingleDirectionalLight(slant, lightSlant, material, disk, choice, seed = 1) {
+function generateSceneSingleDirectionalLightDisk(slant, lightSlant, material, choice, seed = 1) {
 	var vertices = hillsAndValleys(seed);
 	var faces = triangulateVertices(vertices);
 	var geometry = geometryConstructorWrapper(vertices, faces);
 	var mesh = new THREE.Mesh(geometry, material);
 	mesh.geometry.computeVertexNormals();
 	var hillAndValleyIndices = getLocalExtremaInCenter(vertices);
-
-	disk.position.set(vertices[hillAndValleyIndices[choice]].x, vertices[hillAndValleyIndices[choice]].y, vertices[hillAndValleyIndices[choice]].z);
+	var disk = generateBigRedDisk();
 
 	var group = new THREE.Group();
 	group.add(disk);
 	group.add(mesh);
+	
+	// rotate disk back to be flat and move forward in world Z axis
+	mesh.rotateX(-slant/180 * Math.PI);
+	mesh.updateMatrixWorld();
+	mesh.localToWorld(vertices[hillAndValleyIndices[choice]]);
+	disk.translateX(vertices[hillAndValleyIndices[choice]].x);
+	disk.translateY(vertices[hillAndValleyIndices[choice]].y);
+	disk.translateZ(vertices[hillAndValleyIndices[choice]].z + DISK_DISTANCE);
 
-	group.rotation.set(-slant/180 * Math.PI,0,0);
 
 	var lights = [getDirectionalLight(lightSlant)];
 
 	return generateScene(group, lights);
 }
 
-function generateSceneMatlabLight( slant, material, disk, choice, seed = 1) {
+
+function generateSceneSingleDirectionalLight(slant, lightSlant, material, choice, seed = 1) {
 	var vertices = hillsAndValleys(seed);
 	var faces = triangulateVertices(vertices);
 	var geometry = geometryConstructorWrapper(vertices, faces);
 	var mesh = new THREE.Mesh(geometry, material);
 	mesh.geometry.computeVertexNormals();
 	var hillAndValleyIndices = getLocalExtremaInCenter(vertices);
-
-	disk.position.set(vertices[hillAndValleyIndices[choice]].x, vertices[hillAndValleyIndices[choice]].y, vertices[hillAndValleyIndices[choice]].z);
+	var disk = generateSmallRedSphere();
 
 	var group = new THREE.Group();
 	group.add(disk);
 	group.add(mesh);
 
-	group.rotation.set(-slant/180 * Math.PI,0,0);
+	disk.position.set(vertices[hillAndValleyIndices[choice]].x, 
+		vertices[hillAndValleyIndices[choice]].y, 
+		vertices[hillAndValleyIndices[choice]].z);
+
+	group.rotateX(-slant/180 * Math.PI);
+
+	var lights = [getDirectionalLight(lightSlant)];
+
+	return generateScene(group, lights);
+}
+
+function generateSceneMatlabLightDisk( slant, material, choice, seed = 1) {
+	var vertices = hillsAndValleys(seed);
+	var faces = triangulateVertices(vertices);
+	var geometry = geometryConstructorWrapper(vertices, faces);
+	var mesh = new THREE.Mesh(geometry, material);
+	mesh.geometry.computeVertexNormals();
+	var hillAndValleyIndices = getLocalExtremaInCenter(vertices);
+	var disk = generateBigRedDisk();
+
+	var group = new THREE.Group();
+	group.add(disk);
+	group.add(mesh);
+
+	// rotate disk back to be flat and move forward in world Z axis
+	mesh.rotateX(-slant/180 * Math.PI);
+	mesh.updateMatrixWorld();
+	mesh.localToWorld(vertices[hillAndValleyIndices[choice]]);
+	disk.translateX(vertices[hillAndValleyIndices[choice]].x);
+	disk.translateY(vertices[hillAndValleyIndices[choice]].y);
+	disk.translateZ(vertices[hillAndValleyIndices[choice]].z + DISK_DISTANCE);
 
 	var lights = [getMatlabLight()];
 
 	return generateScene(group, lights);
 }
 
-function generateSceneMathematicaLight(slant, material, disk, choice, seed = 1) {
+function generateSceneMatlabLight( slant, material, choice, seed = 1) {
 	var vertices = hillsAndValleys(seed);
 	var faces = triangulateVertices(vertices);
 	var geometry = geometryConstructorWrapper(vertices, faces);
 	var mesh = new THREE.Mesh(geometry, material);
 	mesh.geometry.computeVertexNormals();
 	var hillAndValleyIndices = getLocalExtremaInCenter(vertices);
-
-	disk.position.set(vertices[hillAndValleyIndices[choice]].x, vertices[hillAndValleyIndices[choice]].y, vertices[hillAndValleyIndices[choice]].z);
+	var disk = generateSmallRedSphere();
 
 	var group = new THREE.Group();
 	group.add(disk);
 	group.add(mesh);
 
-	group.rotation.set(-slant/180 * Math.PI,0,0);
+	disk.position.set(vertices[hillAndValleyIndices[choice]].x, 
+		vertices[hillAndValleyIndices[choice]].y, 
+		vertices[hillAndValleyIndices[choice]].z);
+
+	group.rotateX(-slant/180 * Math.PI);
+
+	var lights = [getMatlabLight()];
+
+	return generateScene(group, lights);
+}
+
+function generateSceneMathematicaLightDisk(slant, material, choice, seed = 1) {
+	var vertices = hillsAndValleys(seed);
+	var faces = triangulateVertices(vertices);
+	var geometry = geometryConstructorWrapper(vertices, faces);
+	var mesh = new THREE.Mesh(geometry, material);
+	mesh.geometry.computeVertexNormals();
+	var hillAndValleyIndices = getLocalExtremaInCenter(vertices);
+	var disk = generateBigRedDisk();
+
+	// rotate disk back to be flat and move forward in world Z axis
+	mesh.rotateX(-slant/180 * Math.PI);
+	mesh.updateMatrixWorld();
+	mesh.localToWorld(vertices[hillAndValleyIndices[choice]]);
+	disk.translateX(vertices[hillAndValleyIndices[choice]].x);
+	disk.translateY(vertices[hillAndValleyIndices[choice]].y);
+	disk.translateZ(vertices[hillAndValleyIndices[choice]].z + DISK_DISTANCE);
+
+	var group = new THREE.Group();
+	group.add(disk);
+	group.add(mesh);
+
+	var lights = getMathematicaLights();
+
+	return generateScene(group, lights);
+}
+
+function generateSceneMathematicaLight(slant, material, choice, seed = 1) {
+	var vertices = hillsAndValleys(seed);
+	var faces = triangulateVertices(vertices);
+	var geometry = geometryConstructorWrapper(vertices, faces);
+	var mesh = new THREE.Mesh(geometry, material);
+	mesh.geometry.computeVertexNormals();
+	var hillAndValleyIndices = getLocalExtremaInCenter(vertices);
+	var disk = generateSmallRedSphere();
+
+	var group = new THREE.Group();
+	group.add(disk);
+	group.add(mesh);
+
+	disk.position.set(vertices[hillAndValleyIndices[choice]].x, 
+		vertices[hillAndValleyIndices[choice]].y, 
+		vertices[hillAndValleyIndices[choice]].z);
+
+	group.rotateX(-slant/180 * Math.PI);
 
 	var lights = getMathematicaLights();
 

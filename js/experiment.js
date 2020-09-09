@@ -1,21 +1,4 @@
 /* generate all our stimulus ahead of time */
-domDirectionalLightTest_30_20_1 = generateSceneSingleDirectionalLight(30, 20, getMatteMaterial(), generateBigRedSphere(), ChoiceEnum.HILL);
-domDirectionalLightTest_30_20_2 = generateSceneSingleDirectionalLight(30, 20, getMatteMaterial(), generateSmallRedSphere(), ChoiceEnum.HILL);
-
-domDirectionalLightTest_30_30_1 = generateSceneSingleDirectionalLight(30, 30, getMatteMaterial(), generateBigRedSphere(), ChoiceEnum.VALLEY, 1.1);
-domDirectionalLightTest_30_30_2 = generateSceneSingleDirectionalLight(30, 30, getMatteMaterial(), generateSmallRedSphere(), ChoiceEnum.VALLEY, 1.1);
-
-domDirectionalLightTest_30_40_1 = generateSceneSingleDirectionalLight(30, 40, getMatteMaterial(), generateBigRedSphere(), ChoiceEnum.HILL, 1.2);
-domDirectionalLightTest_30_40_2 = generateSceneSingleDirectionalLight(30, 40, getMatteMaterial(), generateSmallRedSphere(), ChoiceEnum.HILL, 1.2);
-
-domDirectionalLightTest_30_50_1 = generateSceneSingleDirectionalLight(30, 50, getMatteMaterial(), generateBigRedSphere(), ChoiceEnum.HILL, 1.3);
-domDirectionalLightTest_30_50_2 = generateSceneSingleDirectionalLight(30, 50, getMatteMaterial(), generateSmallRedSphere(), ChoiceEnum.HILL, 1.3);
-
-domDirectionalLightTest_30_60_1 = generateSceneSingleDirectionalLight(30, 60, getMatteMaterial(), generateBigRedSphere(), ChoiceEnum.HILL, 1.4);
-domDirectionalLightTest_30_60_2 = generateSceneSingleDirectionalLight(30, 60, getMatteMaterial(), generateSmallRedSphere(), ChoiceEnum.HILL, 1.4);
-
-domDirectionalLightTest_30_70_1 = generateSceneSingleDirectionalLight(30, 70, getMatteMaterial(), generateBigRedSphere(), ChoiceEnum.HILL, 1.5);
-domDirectionalLightTest_30_70_2 = generateSceneSingleDirectionalLight(30, 70, getMatteMaterial(), generateSmallRedSphere(), ChoiceEnum.HILL, 1.5);
 
 /* create timeline */
 var timeline = [];
@@ -55,47 +38,6 @@ var instructions = {
 };
 timeline.push(instructions);
 
-
-/* test trials */
-var test_stimuli = [
-  { 
-    stimulus1_name: "1. directional light, 30 degree surface slant, 20 degree light slant, matte, pre",
-    stimulus1: domDirectionalLightTest_30_20_1.domElement,
-    stimulus2_name: "1. directional light, 30 degree surface slant, 20 degree light slant, matte, post",
-    stimulus2: domDirectionalLightTest_30_20_2.domElement
-  },
-  { 
-    stimulus1_name: "1. directional light, 30 degree surface slant, 30 degree light slant, matte, pre",
-    stimulus1: domDirectionalLightTest_30_30_1.domElement,
-    stimulus2_name: "1. directional light, 30 degree surface slant, 30 degree light slant, matte, post",
-    stimulus2: domDirectionalLightTest_30_30_2.domElement
-  },
-  { 
-    stimulus1_name: "1. directional light, 30 degree surface slant, 40 degree light slant, matte, pre",
-    stimulus1: domDirectionalLightTest_30_40_1.domElement,
-    stimulus2_name: "1. directional light, 30 degree surface slant, 40 degree light slant, matte, post",
-    stimulus2: domDirectionalLightTest_30_40_2.domElement
-  },
-  { 
-    stimulus1_name: "1. directional light, 30 degree surface slant, 50 degree light slant, matte, pre",
-    stimulus1: domDirectionalLightTest_30_50_1.domElement,
-    stimulus2_name: "1. directional light, 30 degree surface slant, 50 degree light slant, matte, post",
-    stimulus2: domDirectionalLightTest_30_50_2.domElement
-  },
-  { 
-    stimulus1_name: "1. directional light, 30 degree surface slant, 60 degree light slant, matte, pre",
-    stimulus1: domDirectionalLightTest_30_60_1.domElement,
-    stimulus2_name: "1. directional light, 30 degree surface slant, 60 degree light slant, matte, post",
-    stimulus2: domDirectionalLightTest_30_60_2.domElement
-  },
-  { 
-    stimulus1_name: "1. directional light, 30 degree surface slant, 70 degree light slant, matte, pre",
-    stimulus1: domDirectionalLightTest_30_70_1.domElement,
-    stimulus2_name: "1. directional light, 30 degree surface slant, 70 degree light slant, matte, post",
-    stimulus2: domDirectionalLightTest_30_70_2.domElement
-  },
-];
-
 var fixation = {
   type: 'html-keyboard-response',
   stimulus: '<div class=\"display_text\" style="font-size:60px;">+</div>',
@@ -104,7 +46,7 @@ var fixation = {
 }
 
 var pre_test = {
-  type: 'html-dom-element-keyboard-response',
+  type: 'image-keyboard-response',
   stimulus_name: jsPsych.timelineVariable('stimulus1_name'),
   stimulus: jsPsych.timelineVariable('stimulus1'),
   choices: jsPsych.NO_KEYS,
@@ -112,7 +54,7 @@ var pre_test = {
 }
 
 var test = {
-  type: "html-dom-element-keyboard-response",
+  type: "image-keyboard-response",
   stimulus_name: jsPsych.timelineVariable('stimulus2_name'),
   stimulus: jsPsych.timelineVariable('stimulus2'),
   choices: ['f', 'j'],
