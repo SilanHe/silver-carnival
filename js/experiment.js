@@ -1,4 +1,4 @@
-/* generate all our stimulus ahead of time */
+/* get filenames for all our stimulus ahead of time */
 
 /* create timeline */
 var timeline = [];

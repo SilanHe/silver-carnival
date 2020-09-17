@@ -11,6 +11,9 @@ var DISK_DISTANCE = 6;
 var WINDOW_WIDTH = 1920;
 var WINDOW_HEIGHT = 1200;
 
+var LIGHT_Z_DISTANCE = 100;
+var CAMERA_POSITION = 83;
+
 // Functions
 // -----------------------------------------------------------------------------
 
@@ -31,7 +34,7 @@ function sine(amplitude, frequency, phase, t) {
 function hillsAndValleys(seed = 1) {
 	noise.seed(seed);
 
-	var amplitude = 1;
+	var amplitude = 0.9;
 	var min = -17.5;
 	var max = 17.5;
 	var range = Math.abs(max - min);
@@ -48,7 +51,7 @@ function hillsAndValleys(seed = 1) {
 			var y = min + increment * j;
 
 			// get height map / z
-			var z = amplitude * noise.perlin2(x / 3,y / 3);
+			var z = amplitude * noise.perlin2(x / 4.5,y / 4.5);
 
 			vertices.push(new THREE.Vector3(x,y,z));
 		}
@@ -91,8 +94,8 @@ function getLocalExtremaInCenter(vertices) {
 	var localMinIndex = 0;
 
 	// approximate center area tracking variables
-	var centerWidth = 100;
-	var centerWidthHalved = centerWidth/2;
+	var centerWidth = 150;
+	var centerWidthHalved = Math.floor(centerWidth/4);
 	var startRow = Math.abs(Math.floor(NUM_POINTS / 2 - centerWidth / 2));
 	var endRow = startRow + centerWidth;
 
@@ -168,13 +171,9 @@ function getRedMaterial() {
 }
 
 function getMatteMaterial() {
-	var material = new THREE.MeshPhongMaterial( 
+	var material = new THREE.MeshStandardMaterial( 
 		{
 			side: THREE.DoubleSide,
-			shininess: 0,
-			flatShading: false,
-			wireframe: false,
-			wireframeLinewidth: 1,
 		} 
 	);
 
@@ -185,11 +184,9 @@ function getGlossyMaterial() {
 	var material = new THREE.MeshPhongMaterial( 
 		{
 			side: THREE.DoubleSide,
-			specular: 0x4d4d4d,
-			shininess: 51,
-			flatShading: false,
-			wireframe: false,
-			wireframeLinewidth: 1,
+			color: new THREE.Color(0xc1c1c1c1),
+			specular: new THREE.Color(0x4c4c4c),
+			shininess: 6,
 		} 
 	);
 
@@ -209,7 +206,6 @@ function getSinFromDegrees(degrees) {
  * @param {*} lightSlant in degrees
  */
 function getDirectionalLight(lightSlant) {
-	var LIGHT_Z_DISTANCE = 6;
 
 	// target of directional light is (0,0,0) by default
 	var directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
@@ -243,7 +239,7 @@ function getDirectionalLight(lightSlant) {
 function getMatlabLight() {
 	var directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
 	// target of directional light is (0,0,0) by default
-	directionalLight.position.set( 1, 0, 1);
+	directionalLight.position.set( LIGHT_Z_DISTANCE, 0, LIGHT_Z_DISTANCE);
 
 	return directionalLight;
 }
@@ -253,13 +249,13 @@ function getMatlabLight() {
  */
 function getMathematicaLights() {
 	var redDirectionLight = new THREE.DirectionalLight( 0xff0000, 1 );
-	redDirectionLight.position.set( 1, 0, 1);
+	redDirectionLight.position.set( LIGHT_Z_DISTANCE, 0, LIGHT_Z_DISTANCE);
 
-	var greenDirectionLight = new THREE.DirectionalLight( 0x00ff00, 1 );
-	greenDirectionLight.position.set( 1, 1, 1);
+	var greenDirectionLight = new THREE.DirectionalLight( 0x00ff00,  );
+	greenDirectionLight.position.set( LIGHT_Z_DISTANCE, LIGHT_Z_DISTANCE, LIGHT_Z_DISTANCE);
 
 	var blueDirectionLight = new THREE.DirectionalLight( 0x0000ff, 1 );
-	blueDirectionLight.position.set( 0, 1, 1);
+	blueDirectionLight.position.set( 0, LIGHT_Z_DISTANCE, LIGHT_Z_DISTANCE);
 
 	return [redDirectionLight, greenDirectionLight, blueDirectionLight];
 }
@@ -271,12 +267,13 @@ function getMathematicaLights() {
  */
 function generateScene(group, lights) {
 	var scene = new THREE.Scene();
+	scene.background = new THREE.Color( 0x111111);
 	var camera = new THREE.PerspectiveCamera( CAMERA_FOV, WINDOW_WIDTH/ WINDOW_HEIGHT, 0.1, 1000);
 	var renderer = new THREE.WebGLRenderer({
 		preserveDrawingBuffer: true 
 	});
 
-	camera.position.set(0,0,53);
+	camera.position.set(0,0,CAMERA_POSITION);
 	renderer.setSize( WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	// axis helper
