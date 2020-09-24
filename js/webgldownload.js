@@ -1,6 +1,6 @@
 var SEED_START = 1000; // there are approximately 50 (x2) images to gen
 var seed = SEED_START;
-var choiceEnum = ChoiceEnum.HILL;
+var choiceEnum = ChoiceEnum.VALLEY;
 
 var choiceEnumString = "";
 if (choiceEnum == ChoiceEnum.HILL) {
@@ -28,37 +28,37 @@ function downloadCanvas(renderer, filename = "canvas_images.png") {
 
 function generateSingleDirectionalLight30FloorSlantMatte() {
 	/* generate all our stimulus ahead of time */
-	surfaceSlant = 20;
+	surfaceSlant = 30;
 
 	seed ++;
-	domDirectionalLightTest_30_20_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 20, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_30_20_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(20)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_30_20_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_30_20_1");
-	domDirectionalLightTest_30_20_2 = generateSceneSingleDirectionalLight( surfaceSlant, 20, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_30_20_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(20)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_30_20_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_30_20_2");
 	seed ++;
-	domDirectionalLightTest_30_30_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 30, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_30_30_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(30)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_30_30_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_30_30_1");
-	domDirectionalLightTest_30_30_2 = generateSceneSingleDirectionalLight( surfaceSlant, 30, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_30_30_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(30)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_30_30_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_30_30_2");
 	seed ++;
-	domDirectionalLightTest_30_40_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 40, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_30_40_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(40)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_30_40_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_30_40_1");
-	domDirectionalLightTest_30_40_2 = generateSceneSingleDirectionalLight( surfaceSlant, 40, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_30_40_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(40)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_30_40_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_30_40_2");
 	seed ++;
-	domDirectionalLightTest_30_50_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 50, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_30_50_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(50)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_30_50_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_30_50_1");
-	domDirectionalLightTest_30_50_2 = generateSceneSingleDirectionalLight( surfaceSlant, 50, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_30_50_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(50)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_30_50_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_30_50_2");
 	seed ++;
-	domDirectionalLightTest_30_60_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 60, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_30_60_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(60)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_30_60_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_30_60_1");
-	domDirectionalLightTest_30_60_2 = generateSceneSingleDirectionalLight( surfaceSlant, 60, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_30_60_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(60)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_30_60_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_30_60_2");
 	seed ++;
-	domDirectionalLightTest_30_70_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 70, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_30_70_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(70)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_30_70_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_30_70_1");
-	domDirectionalLightTest_30_70_2 = generateSceneSingleDirectionalLight( surfaceSlant, 70, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_30_70_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(70)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_30_70_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_30_70_2");
 }
 
@@ -68,44 +68,44 @@ function generateSingleDirectionalLight45FloorSlantMatte() {
 	surfaceSlant = 45;
 
 	seed ++;
-	domDirectionalLightTest_45_30_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 30, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_45_30_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(30)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_45_30_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_45_30_1");
-	domDirectionalLightTest_45_30_2 = generateSceneSingleDirectionalLight( surfaceSlant, 30, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_45_30_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(30)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_45_30_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_45_30_2");
 	seed ++;
-	domDirectionalLightTest_45_40_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 40, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_45_40_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(40)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_45_40_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_45_40_1");
-	domDirectionalLightTest_45_40_2 = generateSceneSingleDirectionalLight( surfaceSlant, 40, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_45_40_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(40)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_45_40_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_45_40_2");
 	seed ++;
-	domDirectionalLightTest_45_50_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 50, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_45_50_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(50)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_45_50_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_45_50_1");
-	domDirectionalLightTest_45_50_2 = generateSceneSingleDirectionalLight( surfaceSlant, 50, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_45_50_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(50)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_45_50_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_45_50_2");
 	seed ++;
-	domDirectionalLightTest_45_60_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 60, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_45_60_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(60)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_45_60_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_45_60_1");
-	domDirectionalLightTest_45_60_2 = generateSceneSingleDirectionalLight( surfaceSlant, 60, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_45_60_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(60)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_45_60_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_45_60_2");
 	seed ++;
-	domDirectionalLightTest_45_70_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 70, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_45_70_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(70)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_45_70_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_45_70_1");
-	domDirectionalLightTest_45_70_2 = generateSceneSingleDirectionalLight( surfaceSlant, 70, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_45_70_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(70)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_45_70_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_45_70_2");
 	seed ++;
-	domDirectionalLightTest_45_80_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 80, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_45_80_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(80)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_45_80_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_45_80_1");
-	domDirectionalLightTest_45_80_2 = generateSceneSingleDirectionalLight( surfaceSlant, 80, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_45_80_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(80)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_45_80_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_45_80_2");
 	seed ++;
-	domDirectionalLightTest_45_90_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 90, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_45_90_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(90)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_45_90_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_45_90_1");
-	domDirectionalLightTest_45_90_2 = generateSceneSingleDirectionalLight( surfaceSlant, 90, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_45_90_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(90)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_45_90_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_45_90_2");
 	seed ++;
-	domDirectionalLightTest_45_100_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 100, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_45_100_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(100)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_45_100_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_45_100_1");
-	domDirectionalLightTest_45_100_2 = generateSceneSingleDirectionalLight( surfaceSlant, 100, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_45_100_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(100)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_45_100_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_45_100_2");
 }
 
@@ -115,29 +115,29 @@ function generateSingleDirectionalLight60FloorSlantMatte() {
 	surfaceSlant = 60;
 
 	seed ++;
-	domDirectionalLightTest_60_90_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 90, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_60_90_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(90)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_60_90_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_60_90_1");
-	domDirectionalLightTest_60_90_2 = generateSceneSingleDirectionalLight( surfaceSlant, 90, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_60_90_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(90)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_60_90_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_60_90_2");
 	seed ++;
-	domDirectionalLightTest_60_100_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 100, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_60_100_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(100)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_60_100_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_60_100_1");
-	domDirectionalLightTest_60_100_2 = generateSceneSingleDirectionalLight( surfaceSlant, 100, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_60_100_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(100)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_60_100_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_60_100_2");
 	seed ++;
-	domDirectionalLightTest_60_110_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 110, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_60_110_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(110)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_60_110_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_60_110_1");
-	domDirectionalLightTest_60_110_2 = generateSceneSingleDirectionalLight( surfaceSlant, 110, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_60_110_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(110)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_60_110_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_60_110_2");
 	seed ++;
-	domDirectionalLightTest_60_120_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 120, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_60_120_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(120)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_60_120_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_60_120_1");
-	domDirectionalLightTest_60_120_2 = generateSceneSingleDirectionalLight( surfaceSlant, 120, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_60_120_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(120)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_60_120_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_60_120_2");
 	seed ++;
-	domDirectionalLightTest_60_130_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 130, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_60_130_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(130)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_60_130_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_60_130_1");
-	domDirectionalLightTest_60_130_2 = generateSceneSingleDirectionalLight( surfaceSlant, 130, getMatteMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_60_130_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(130)], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_60_130_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Matte_60_130_2");
 }
 
@@ -147,34 +147,34 @@ function generateSingleDirectionalLight30FloorSlantGlossy() {
 	surfaceSlant = 30;
 
 	seed ++;
-	domDirectionalLightTest_30_20_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 20, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_30_20_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(20)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_30_20_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_30_20_1");
-	domDirectionalLightTest_30_20_2 = generateSceneSingleDirectionalLight( surfaceSlant, 20, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_30_20_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(20)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_30_20_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_30_20_2");
 	seed ++;
-	domDirectionalLightTest_30_30_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 30, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_30_30_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(30)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_30_30_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_30_30_1");
-	domDirectionalLightTest_30_30_2 = generateSceneSingleDirectionalLight( surfaceSlant, 30, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_30_30_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(30)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_30_30_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_30_30_2");
 	seed ++;
-	domDirectionalLightTest_30_40_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 40, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_30_40_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(40)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_30_40_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_30_40_1");
-	domDirectionalLightTest_30_40_2 = generateSceneSingleDirectionalLight( surfaceSlant, 40, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_30_40_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(40)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_30_40_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_30_40_2");
 	seed ++;
-	domDirectionalLightTest_30_50_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 50, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_30_50_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(50)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_30_50_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_30_50_1");
-	domDirectionalLightTest_30_50_2 = generateSceneSingleDirectionalLight( surfaceSlant, 50, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_30_50_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(50)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_30_50_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_30_50_2");
 	seed ++;
-	domDirectionalLightTest_30_60_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 60, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_30_60_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(60)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_30_60_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_30_60_1");
-	domDirectionalLightTest_30_60_2 = generateSceneSingleDirectionalLight( surfaceSlant, 60, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_30_60_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(60)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_30_60_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_30_60_2");
 	seed ++;
-	domDirectionalLightTest_30_70_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 70, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_30_70_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(70)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_30_70_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_30_70_1");
-	domDirectionalLightTest_30_70_2 = generateSceneSingleDirectionalLight( surfaceSlant, 70, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_30_70_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(70)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_30_70_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_30_70_2");
 }
 
@@ -184,44 +184,44 @@ function generateSingleDirectionalLight45FloorSlantGlossy() {
 	surfaceSlant = 45;
 
 	seed ++;
-	domDirectionalLightTest_45_30_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 30, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_45_30_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(30)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_45_30_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_45_30_1");
-	domDirectionalLightTest_45_30_2 = generateSceneSingleDirectionalLight( surfaceSlant, 30, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_45_30_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(30)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_45_30_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_45_30_2");
 	seed ++;
-	domDirectionalLightTest_45_40_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 40, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_45_40_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(40)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_45_40_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_45_40_1");
-	domDirectionalLightTest_45_40_2 = generateSceneSingleDirectionalLight( surfaceSlant, 40, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_45_40_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(40)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_45_40_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_45_40_2");
 	seed ++;
-	domDirectionalLightTest_45_50_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 50, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_45_50_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(50)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_45_50_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_45_50_1");
-	domDirectionalLightTest_45_50_2 = generateSceneSingleDirectionalLight( surfaceSlant, 50, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_45_50_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(50)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_45_50_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_45_50_2");
 	seed ++;
-	domDirectionalLightTest_45_60_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 60, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_45_60_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(60)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_45_60_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_45_60_1");
-	domDirectionalLightTest_45_60_2 = generateSceneSingleDirectionalLight( surfaceSlant, 60, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_45_60_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(60)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_45_60_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_45_60_2");
 	seed ++;
-	domDirectionalLightTest_45_70_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 70, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_45_70_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(70)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_45_70_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_45_70_1");
-	domDirectionalLightTest_45_70_2 = generateSceneSingleDirectionalLight( surfaceSlant, 70, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_45_70_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(70)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_45_70_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_45_70_2");
 	seed ++;
-	domDirectionalLightTest_45_80_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 80, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_45_80_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(80)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_45_80_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_45_80_1");
-	domDirectionalLightTest_45_80_2 = generateSceneSingleDirectionalLight( surfaceSlant, 80, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_45_80_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(80)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_45_80_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_45_80_2");
 	seed ++;
-	domDirectionalLightTest_45_90_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 90, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_45_90_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(90)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_45_90_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_45_90_1");
-	domDirectionalLightTest_45_90_2 = generateSceneSingleDirectionalLight( surfaceSlant, 90, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_45_90_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(90)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_45_90_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_45_90_2");
 	seed ++;
-	domDirectionalLightTest_45_100_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 100, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_45_100_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(100)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_45_100_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_45_100_1");
-	domDirectionalLightTest_45_100_2 = generateSceneSingleDirectionalLight( surfaceSlant, 100, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_45_100_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(100)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_45_100_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_45_100_2");
 }
 
@@ -231,29 +231,29 @@ function generateSingleDirectionalLight60FloorSlantGlossy() {
 	surfaceSlant = 60;
 
 	seed ++;
-	domDirectionalLightTest_60_90_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 90, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_60_90_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(90)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_60_90_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_60_90_1");
-	domDirectionalLightTest_60_90_2 = generateSceneSingleDirectionalLight( surfaceSlant, 90, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_60_90_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(90)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_60_90_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_60_90_2");
 	seed ++;
-	domDirectionalLightTest_60_100_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 100, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_60_100_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(100)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_60_100_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_60_100_1");
-	domDirectionalLightTest_60_100_2 = generateSceneSingleDirectionalLight( surfaceSlant, 100, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_60_100_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(100)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_60_100_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_60_100_2");
 	seed ++;
-	domDirectionalLightTest_60_110_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 110, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_60_110_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(110)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_60_110_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_60_110_1");
-	domDirectionalLightTest_60_110_2 = generateSceneSingleDirectionalLight( surfaceSlant, 110, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_60_110_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(110)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_60_110_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_60_110_2");
 	seed ++;
-	domDirectionalLightTest_60_120_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 120, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_60_120_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(120)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_60_120_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_60_120_1");
-	domDirectionalLightTest_60_120_2 = generateSceneSingleDirectionalLight( surfaceSlant, 120, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_60_120_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(120)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_60_120_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_60_120_2");
 	seed ++;
-	domDirectionalLightTest_60_130_1 = generateSceneSingleDirectionalLightDisk( surfaceSlant, 130, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_60_130_1 = generateSceneBigDisk( surfaceSlant, [getDirectionalLight(130)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_60_130_1, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_60_130_1");
-	domDirectionalLightTest_60_130_2 = generateSceneSingleDirectionalLight( surfaceSlant, 130, getGlossyMaterial(), choiceEnum, seed);
+	domDirectionalLightTest_60_130_2 = generateSceneSmallPip( surfaceSlant, [getDirectionalLight(130)], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domDirectionalLightTest_60_130_2, "DirectionalLightTest_Seed" + seed + choiceEnumString + "_Glossy_60_130_2");
 }
 
@@ -262,19 +262,19 @@ function generateMatlabLightMatte() {
 	seed += 42;
 
 	seed ++;
-	domMatlabLightTest_30_1 = generateSceneMatlabLightDisk(30, getMatteMaterial(), choiceEnum, seed);
+	domMatlabLightTest_30_1 = generateSceneBigDisk(30, [getMatlabLight()], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domMatlabLightTest_30_1, "MatlabTest_Seed" + seed + choiceEnumString + "_Matte_30_1");
-	domMatlabLightTest_30_2 = generateSceneMatlabLight(30, getMatteMaterial(), choiceEnum, seed);
+	domMatlabLightTest_30_2 = generateSceneSmallPip(30, [getMatlabLight()], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domMatlabLightTest_30_2, "MatlabTest_Seed" + seed + choiceEnumString + "_Matte_30_2");
 	seed ++;
-	domMatlabLightTest_45_1 = generateSceneMatlabLightDisk(45, getMatteMaterial(), choiceEnum, seed);
+	domMatlabLightTest_45_1 = generateSceneBigDisk(45, [getMatlabLight()], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domMatlabLightTest_45_1, "MatlabTest_Seed" + seed + choiceEnumString + "_Matte_45_1");
-	domMatlabLightTest_45_2 = generateSceneMatlabLight(45, getMatteMaterial(), choiceEnum, seed);
+	domMatlabLightTest_45_2 = generateSceneSmallPip(45, [getMatlabLight()], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domMatlabLightTest_45_2, "MatlabTest_Seed" + seed + choiceEnumString + "_Matte_45_2");
 	seed ++;
-	domMatlabLightTest_60_1 = generateSceneMatlabLightDisk(60, getMatteMaterial(), choiceEnum, seed);
+	domMatlabLightTest_60_1 = generateSceneBigDisk(60, [getMatlabLight()], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domMatlabLightTest_60_1, "MatlabTest_Seed" + seed + choiceEnumString + "_Matte_60_1");
-	domMatlabLightTest_60_2 = generateSceneMatlabLight(60, getMatteMaterial(), choiceEnum, seed);
+	domMatlabLightTest_60_2 = generateSceneSmallPip(60, [getMatlabLight()], getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domMatlabLightTest_60_2, "MatlabTest_Seed" + seed + choiceEnumString + "_Matte_60_2");
 }
 
@@ -283,19 +283,19 @@ function generateMatlabLightGlossy() {
 	seed += 45;
 
 	seed ++;
-	domMatlabLightTest_30_1 = generateSceneMatlabLightDisk(30, getGlossyMaterial(), choiceEnum, seed);
+	domMatlabLightTest_30_1 = generateSceneBigDisk(30, [getMatlabLight()], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domMatlabLightTest_30_1, "MatlabTest_Seed" + seed + choiceEnumString + "_Glossy_30_1");
-	domMatlabLightTest_30_2 = generateSceneMatlabLight(30, getGlossyMaterial(), choiceEnum, seed);
+	domMatlabLightTest_30_2 = generateSceneSmallPip(30, [getMatlabLight()], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domMatlabLightTest_30_2, "MatlabTest_Seed" + seed + choiceEnumString + "_Glossy_30_2");
 	seed ++;
-	domMatlabLightTest_45_1 = generateSceneMatlabLightDisk(45, getGlossyMaterial(), choiceEnum, seed);
+	domMatlabLightTest_45_1 = generateSceneBigDisk(45, [getMatlabLight()], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domMatlabLightTest_45_1, "MatlabTest_Seed" + seed + choiceEnumString + "_Glossy_45_1");
-	domMatlabLightTest_45_2 = generateSceneMatlabLight(45, getGlossyMaterial(), choiceEnum, seed);
+	domMatlabLightTest_45_2 = generateSceneSmallPip(45, [getMatlabLight()], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domMatlabLightTest_45_2, "MatlabTest_Seed" + seed + choiceEnumString + "_Glossy_45_2");
 	seed ++;
-	domMatlabLightTest_60_1 = generateSceneMatlabLightDisk(60, getGlossyMaterial(), choiceEnum, seed);
+	domMatlabLightTest_60_1 = generateSceneBigDisk(60, [getMatlabLight()], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domMatlabLightTest_60_1, "MatlabTest_Seed" + seed + choiceEnumString + "_Glossy_60_1");
-	domMatlabLightTest_60_2 = generateSceneMatlabLight(60, getGlossyMaterial(), choiceEnum, seed);
+	domMatlabLightTest_60_2 = generateSceneSmallPip(60, [getMatlabLight()], getGlossyMaterial(), choiceEnum, seed);
 	downloadCanvas(domMatlabLightTest_60_2, "MatlabTest_Seed" + seed + choiceEnumString + "_Glossy_60_2");
 }
 
@@ -304,19 +304,19 @@ function generateMathematicaLightMatte() {
 	seed += 49;
 
 	seed ++;
-	domMathematicaLightTest_30_1 = generateSceneMathematicaLightDisk(30, getMatteMaterial(), choiceEnum, seed);
+	domMathematicaLightTest_30_1 = generateSceneBigDisk(30, getMathematicaLights(), getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domMathematicaLightTest_30_1, "MathematicaTest_Seed" + seed + choiceEnumString + "_Matte_30_1");
-	domMathematicaLightTest_30_2 = generateSceneMathematicaLight(30, getMatteMaterial(), choiceEnum, seed);
+	domMathematicaLightTest_30_2 = generateSceneSmallPip(30, getMathematicaLights(), getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domMathematicaLightTest_30_2, "MathematicaTest_Seed" + seed + choiceEnumString + "_Matte_30_2");
 	seed ++;
-	domMathematicaLightTest_45_1 = generateSceneMathematicaLightDisk(45, getMatteMaterial(), choiceEnum, seed);
+	domMathematicaLightTest_45_1 = generateSceneBigDisk(45, getMathematicaLights(), getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domMathematicaLightTest_45_1, "MathematicaTest_Seed" + seed + choiceEnumString + "_Matte_45_1");
-	domMathematicaLightTest_45_2 = generateSceneMathematicaLight(45, getMatteMaterial(), choiceEnum, seed);
+	domMathematicaLightTest_45_2 = generateSceneSmallPip(45, getMathematicaLights(), getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domMathematicaLightTest_45_2, "MathematicaTest_Seed" + seed + choiceEnumString + "_Matte_45_2");
 	seed ++;
-	domMathematicaLightTest_60_1 = generateSceneMathematicaLightDisk(60, getMatteMaterial(), choiceEnum, seed);
+	domMathematicaLightTest_60_1 = generateSceneBigDisk(60, getMathematicaLights(), getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domMathematicaLightTest_60_1, "MathematicaTest_Seed" + seed + choiceEnumString + "_Matte_60_1");
-	domMathematicaLightTest_60_2 = generateSceneMathematicaLight(60, getMatteMaterial(), choiceEnum, seed);
+	domMathematicaLightTest_60_2 = generateSceneSmallPip(60, getMathematicaLights(), getMatteMaterial(), choiceEnum, seed);
 	downloadCanvas(domMathematicaLightTest_60_2, "MathematicaTest_Seed" + seed + choiceEnumString + "_Matte_60_2");
 }
 
@@ -327,6 +327,6 @@ function generateMathematicaLightMatte() {
 // generateSingleDirectionalLight30FloorSlantGlossy();
 // generateSingleDirectionalLight45FloorSlantGlossy();
 // generateSingleDirectionalLight60FloorSlantGlossy();
-// generateMatlabLightMatte();
+generateMatlabLightMatte();
 // generateMatlabLightGlossy();
-generateMathematicaLightMatte();
+// generateMathematicaLightMatte();

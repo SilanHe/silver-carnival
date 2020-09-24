@@ -1,7 +1,7 @@
 // Variables
 // -----------------------------------------------------------------------------
 var NUM_POINTS = 350;
-var CAMERA_FOV = 50;
+var CAMERA_FOV = 18;
 const ChoiceEnum = {
 	HILL: 0,
 	VALLEY: 1, 
@@ -12,7 +12,7 @@ var WINDOW_WIDTH = 1920;
 var WINDOW_HEIGHT = 1200;
 
 var LIGHT_Z_DISTANCE = 100;
-var CAMERA_POSITION = 83;
+var CAMERA_POSITION = 53;
 
 // Functions
 // -----------------------------------------------------------------------------
@@ -34,9 +34,9 @@ function sine(amplitude, frequency, phase, t) {
 function hillsAndValleys(seed = 1) {
 	noise.seed(seed);
 
-	var amplitude = 0.9;
-	var min = -17.5;
-	var max = 17.5;
+	var amplitude = 0.225;
+	var min = -8;
+	var max = 8;
 	var range = Math.abs(max - min);
 	var numPointsEdge = NUM_POINTS;
 	var increment = range/numPointsEdge;
@@ -51,7 +51,7 @@ function hillsAndValleys(seed = 1) {
 			var y = min + increment * j;
 
 			// get height map / z
-			var z = amplitude * noise.perlin2(x / 4.5,y / 4.5);
+			var z = amplitude * noise.simplex2(x / 2.1,y / 2.1 );
 
 			vertices.push(new THREE.Vector3(x,y,z));
 		}
@@ -181,12 +181,11 @@ function getMatteMaterial() {
 }
 
 function getGlossyMaterial() {
-	var material = new THREE.MeshPhongMaterial( 
+	var material = new THREE.MeshStandardMaterial( 
 		{
 			side: THREE.DoubleSide,
-			color: new THREE.Color(0xc1c1c1c1),
-			specular: new THREE.Color(0x4c4c4c),
-			shininess: 6,
+			color: new THREE.Color(0x939393),
+			roughness: 0.4,
 		} 
 	);
 
@@ -237,27 +236,29 @@ function getDirectionalLight(lightSlant) {
  * Returns default matlab lighting conditions
  */
 function getMatlabLight() {
-	var directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
+	var matlabLight = new THREE.DirectionalLight( 0xffffff, 1);
 	// target of directional light is (0,0,0) by default
-	directionalLight.position.set( LIGHT_Z_DISTANCE, 0, LIGHT_Z_DISTANCE);
+	matlabLight.position.set( LIGHT_Z_DISTANCE, 0, LIGHT_Z_DISTANCE);
 
-	return directionalLight;
+	return matlabLight;
 }
 
 /**
  * retuns list of 3 diffuse light sources colored red, green and blue
  */
 function getMathematicaLights() {
-	var redDirectionLight = new THREE.DirectionalLight( 0xff0000, 1 );
+	var redDirectionLight = new THREE.DirectionalLight( 0xff0000, 0.9);
 	redDirectionLight.position.set( LIGHT_Z_DISTANCE, 0, LIGHT_Z_DISTANCE);
 
-	var greenDirectionLight = new THREE.DirectionalLight( 0x00ff00,  );
+	var greenDirectionLight = new THREE.DirectionalLight( 0x00ff00,  0.9);
 	greenDirectionLight.position.set( LIGHT_Z_DISTANCE, LIGHT_Z_DISTANCE, LIGHT_Z_DISTANCE);
 
-	var blueDirectionLight = new THREE.DirectionalLight( 0x0000ff, 1 );
+	var blueDirectionLight = new THREE.DirectionalLight( 0x0000ff, 0.9);
 	blueDirectionLight.position.set( 0, LIGHT_Z_DISTANCE, LIGHT_Z_DISTANCE);
 
-	return [redDirectionLight, greenDirectionLight, blueDirectionLight];
+	var ambientLight = new THREE.AmbientLight( 0x404040, 0.5 );
+
+	return [redDirectionLight, greenDirectionLight, blueDirectionLight, ambientLight];
 }
 
 /**
@@ -293,7 +294,6 @@ function generateScene(group, lights) {
 	}
 
 	function animate() {
-		// requestAnimationFrame( animate );
 		// // uncomment debug graphically by rotating plane
 		// requestAnimationFrame( animate );
 		// group.rotation.x += 0.01;
@@ -301,27 +301,6 @@ function generateScene(group, lights) {
 
 		renderer.render( scene, camera );
 	}
-
-	// // remember these initial values
-	// // for window resize
-	// var tanFOV = Math.tan( ( ( Math.PI / 180 ) * CAMERA_FOV / 2 ) );
-	// var windowHeight = window.innerHeight;
-
-	// function onWindowResize( event ) {
-
-	//     camera.aspect = window.innerWidth / window.innerHeight;
-	    
-	//     // adjust the FOV
-	//     camera.fov = ( 360 / Math.PI ) * Math.atan( tanFOV * ( window.innerHeight / windowHeight ) );
-	    
-	//     camera.updateProjectionMatrix();
-	//     camera.lookAt( scene.position );
-
-	//     renderer.setSize(window.innerWidth, window.innerHeight );
-	//     renderer.render( scene, camera );
-	// }
-
-	// window.addEventListener( 'resize', onWindowResize, false );
 
 	animate();
 
@@ -337,14 +316,14 @@ function generateSmallRedSphere() {
 }
 
 function generateBigRedDisk() {
-	var sphereGeometry = new THREE.SphereGeometry( 1, 32, 32 );
+	var sphereGeometry = new THREE.SphereGeometry( 0.7, 32, 32 );
 	var redMaterial = getRedMaterial();
 	var sphere = new THREE.Mesh(sphereGeometry, redMaterial);
 
 	return sphere;
 }
 
-function generateSceneSingleDirectionalLightDisk(slant, lightSlant, material, choice, seed = 1) {
+function generateSceneBigDisk( slant, lights, material, choice, seed = 1) {
 	var vertices = hillsAndValleys(seed);
 	var faces = triangulateVertices(vertices);
 	var geometry = geometryConstructorWrapper(vertices, faces);
@@ -360,19 +339,19 @@ function generateSceneSingleDirectionalLightDisk(slant, lightSlant, material, ch
 	// rotate disk back to be flat and move forward in world Z axis
 	mesh.rotateX(-slant/180 * Math.PI);
 	mesh.updateMatrixWorld();
-	mesh.localToWorld(vertices[hillAndValleyIndices[choice]]);
-	disk.translateX(vertices[hillAndValleyIndices[choice]].x);
-	disk.translateY(vertices[hillAndValleyIndices[choice]].y);
-	disk.translateZ(vertices[hillAndValleyIndices[choice]].z + DISK_DISTANCE);
-
-
-	var lights = [getDirectionalLight(lightSlant)];
+	let diskLocation = new THREE.Vector3(vertices[hillAndValleyIndices[choice]].x, 
+		vertices[hillAndValleyIndices[choice]].y, 
+		vertices[hillAndValleyIndices[choice]].z);
+	mesh.localToWorld(diskLocation);
+	disk.translateX(diskLocation.x);
+	disk.translateY(diskLocation.y);
+	disk.translateZ(diskLocation.z + DISK_DISTANCE);
 
 	return generateScene(group, lights);
 }
 
 
-function generateSceneSingleDirectionalLight(slant, lightSlant, material, choice, seed = 1) {
+function generateSceneSmallPip( slant, lights, material, choice, seed = 1) {
 	var vertices = hillsAndValleys(seed);
 	var faces = triangulateVertices(vertices);
 	var geometry = geometryConstructorWrapper(vertices, faces);
@@ -384,114 +363,14 @@ function generateSceneSingleDirectionalLight(slant, lightSlant, material, choice
 	var group = new THREE.Group();
 	group.add(disk);
 	group.add(mesh);
-
+	console.log(vertices);
+	console.log(hillAndValleyIndices);
+	console.log(choice);
 	disk.position.set(vertices[hillAndValleyIndices[choice]].x, 
 		vertices[hillAndValleyIndices[choice]].y, 
 		vertices[hillAndValleyIndices[choice]].z);
 
 	group.rotateX(-slant/180 * Math.PI);
-
-	var lights = [getDirectionalLight(lightSlant)];
-
-	return generateScene(group, lights);
-}
-
-function generateSceneMatlabLightDisk( slant, material, choice, seed = 1) {
-	var vertices = hillsAndValleys(seed);
-	var faces = triangulateVertices(vertices);
-	var geometry = geometryConstructorWrapper(vertices, faces);
-	var mesh = new THREE.Mesh(geometry, material);
-	mesh.geometry.computeVertexNormals();
-	var hillAndValleyIndices = getLocalExtremaInCenter(vertices);
-	var disk = generateBigRedDisk();
-
-	var group = new THREE.Group();
-	group.add(disk);
-	group.add(mesh);
-
-	// rotate disk back to be flat and move forward in world Z axis
-	mesh.rotateX(-slant/180 * Math.PI);
-	mesh.updateMatrixWorld();
-	mesh.localToWorld(vertices[hillAndValleyIndices[choice]]);
-	disk.translateX(vertices[hillAndValleyIndices[choice]].x);
-	disk.translateY(vertices[hillAndValleyIndices[choice]].y);
-	disk.translateZ(vertices[hillAndValleyIndices[choice]].z + DISK_DISTANCE);
-
-	var lights = [getMatlabLight()];
-
-	return generateScene(group, lights);
-}
-
-function generateSceneMatlabLight( slant, material, choice, seed = 1) {
-	var vertices = hillsAndValleys(seed);
-	var faces = triangulateVertices(vertices);
-	var geometry = geometryConstructorWrapper(vertices, faces);
-	var mesh = new THREE.Mesh(geometry, material);
-	mesh.geometry.computeVertexNormals();
-	var hillAndValleyIndices = getLocalExtremaInCenter(vertices);
-	var disk = generateSmallRedSphere();
-
-	var group = new THREE.Group();
-	group.add(disk);
-	group.add(mesh);
-
-	disk.position.set(vertices[hillAndValleyIndices[choice]].x, 
-		vertices[hillAndValleyIndices[choice]].y, 
-		vertices[hillAndValleyIndices[choice]].z);
-
-	group.rotateX(-slant/180 * Math.PI);
-
-	var lights = [getMatlabLight()];
-
-	return generateScene(group, lights);
-}
-
-function generateSceneMathematicaLightDisk(slant, material, choice, seed = 1) {
-	var vertices = hillsAndValleys(seed);
-	var faces = triangulateVertices(vertices);
-	var geometry = geometryConstructorWrapper(vertices, faces);
-	var mesh = new THREE.Mesh(geometry, material);
-	mesh.geometry.computeVertexNormals();
-	var hillAndValleyIndices = getLocalExtremaInCenter(vertices);
-	var disk = generateBigRedDisk();
-
-	// rotate disk back to be flat and move forward in world Z axis
-	mesh.rotateX(-slant/180 * Math.PI);
-	mesh.updateMatrixWorld();
-	mesh.localToWorld(vertices[hillAndValleyIndices[choice]]);
-	disk.translateX(vertices[hillAndValleyIndices[choice]].x);
-	disk.translateY(vertices[hillAndValleyIndices[choice]].y);
-	disk.translateZ(vertices[hillAndValleyIndices[choice]].z + DISK_DISTANCE);
-
-	var group = new THREE.Group();
-	group.add(disk);
-	group.add(mesh);
-
-	var lights = getMathematicaLights();
-
-	return generateScene(group, lights);
-}
-
-function generateSceneMathematicaLight(slant, material, choice, seed = 1) {
-	var vertices = hillsAndValleys(seed);
-	var faces = triangulateVertices(vertices);
-	var geometry = geometryConstructorWrapper(vertices, faces);
-	var mesh = new THREE.Mesh(geometry, material);
-	mesh.geometry.computeVertexNormals();
-	var hillAndValleyIndices = getLocalExtremaInCenter(vertices);
-	var disk = generateSmallRedSphere();
-
-	var group = new THREE.Group();
-	group.add(disk);
-	group.add(mesh);
-
-	disk.position.set(vertices[hillAndValleyIndices[choice]].x, 
-		vertices[hillAndValleyIndices[choice]].y, 
-		vertices[hillAndValleyIndices[choice]].z);
-
-	group.rotateX(-slant/180 * Math.PI);
-
-	var lights = getMathematicaLights();
 
 	return generateScene(group, lights);
 }
