@@ -1,12 +1,13 @@
 // Variables
 // -----------------------------------------------------------------------------
 var NUM_POINTS = 350;
-var CAMERA_FOV = 18;
+var CAMERA_FOV = 20;
 const ChoiceEnum = {
 	HILL: 0,
 	VALLEY: 1, 
 };
 var DISK_DISTANCE = 6;
+var PIP_DISTANCE = 0.2;
 
 var WINDOW_WIDTH = 1920;
 var WINDOW_HEIGHT = 1200;
@@ -34,9 +35,9 @@ function sine(amplitude, frequency, phase, t) {
 function hillsAndValleys(seed = 1) {
 	noise.seed(seed);
 
-	var amplitude = 0.225;
-	var min = -8;
-	var max = 8;
+	var amplitude = 0.24;
+	var min = -9.4;
+	var max = 9.4;
 	var range = Math.abs(max - min);
 	var numPointsEdge = NUM_POINTS;
 	var increment = range/numPointsEdge;
@@ -51,7 +52,7 @@ function hillsAndValleys(seed = 1) {
 			var y = min + increment * j;
 
 			// get height map / z
-			var z = amplitude * noise.simplex2(x / 2.1,y / 2.1 );
+			var z = amplitude * noise.simplex2(x / 2.2, y / 2.2);
 
 			vertices.push(new THREE.Vector3(x,y,z));
 		}
@@ -173,7 +174,8 @@ function getRedMaterial() {
 function getMatteMaterial() {
 	var material = new THREE.MeshStandardMaterial( 
 		{
-			side: THREE.DoubleSide,
+			side: THREE.FrontSide,
+			roughness: 1.0,
 		} 
 	);
 
@@ -181,11 +183,19 @@ function getMatteMaterial() {
 }
 
 function getGlossyMaterial() {
+	// var material = new THREE.MeshPhongMaterial( 
+	// 	{
+	// 		side: THREE.DoubleSide,
+	// 		color: new THREE.Color(0x7c7c7c),
+	// 		specular: new THREE.Color(0x4c4c4c),
+	// 		shininess: 10,
+	// 	} 
+	// );
 	var material = new THREE.MeshStandardMaterial( 
 		{
-			side: THREE.DoubleSide,
-			color: new THREE.Color(0x939393),
-			roughness: 0.4,
+			side: THREE.FrontSide,
+			color: new THREE.Color(0xc0c0c0),
+			roughness: 0.42,
 		} 
 	);
 
@@ -275,6 +285,7 @@ function generateScene(group, lights) {
 	});
 
 	camera.position.set(0,0,CAMERA_POSITION);
+	camera.lookAt(0,0,0);
 	renderer.setSize( WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	// axis helper
@@ -328,7 +339,6 @@ function generateSceneBigDisk( slant, lights, material, choice, seed = 1) {
 	var faces = triangulateVertices(vertices);
 	var geometry = geometryConstructorWrapper(vertices, faces);
 	var mesh = new THREE.Mesh(geometry, material);
-	mesh.geometry.computeVertexNormals();
 	var hillAndValleyIndices = getLocalExtremaInCenter(vertices);
 	var disk = generateBigRedDisk();
 
@@ -337,7 +347,8 @@ function generateSceneBigDisk( slant, lights, material, choice, seed = 1) {
 	group.add(mesh);
 	
 	// rotate disk back to be flat and move forward in world Z axis
-	mesh.rotateX(-slant/180 * Math.PI);
+	mesh.rotateX(-THREE.Math.degToRad(slant));
+	mesh.geometry.computeVertexNormals();
 	mesh.updateMatrixWorld();
 	let diskLocation = new THREE.Vector3(vertices[hillAndValleyIndices[choice]].x, 
 		vertices[hillAndValleyIndices[choice]].y, 
@@ -356,21 +367,26 @@ function generateSceneSmallPip( slant, lights, material, choice, seed = 1) {
 	var faces = triangulateVertices(vertices);
 	var geometry = geometryConstructorWrapper(vertices, faces);
 	var mesh = new THREE.Mesh(geometry, material);
-	mesh.geometry.computeVertexNormals();
 	var hillAndValleyIndices = getLocalExtremaInCenter(vertices);
 	var disk = generateSmallRedSphere();
 
 	var group = new THREE.Group();
 	group.add(disk);
 	group.add(mesh);
-	console.log(vertices);
-	console.log(hillAndValleyIndices);
-	console.log(choice);
-	disk.position.set(vertices[hillAndValleyIndices[choice]].x, 
+
+	// rotate disk back to be flat and move forward in world Z axis
+	mesh.rotateX(-THREE.Math.degToRad(slant));
+	mesh.geometry.computeVertexNormals();
+	mesh.updateMatrixWorld();
+	let diskLocation = new THREE.Vector3(vertices[hillAndValleyIndices[choice]].x, 
 		vertices[hillAndValleyIndices[choice]].y, 
 		vertices[hillAndValleyIndices[choice]].z);
+	mesh.localToWorld(diskLocation);
+	disk.translateX(diskLocation.x);
+	disk.translateY(diskLocation.y);
+	disk.translateZ(diskLocation.z + PIP_DISTANCE);
 
-	group.rotateX(-slant/180 * Math.PI);
+	
 
 	return generateScene(group, lights);
 }
