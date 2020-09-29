@@ -1,4 +1,4 @@
-var SEED_START = 1000; // there are approximately 50 (x2) images to gen
+var SEED_START = 2200; // there are approximately 50 (x2) images to gen
 var seed = SEED_START;
 var choiceEnum = ChoiceEnum.VALLEY;
 
@@ -327,6 +327,6 @@ function generateMathematicaLightMatte() {
 // generateSingleDirectionalLight30FloorSlantGlossy();
 // generateSingleDirectionalLight45FloorSlantGlossy();
 // generateSingleDirectionalLight60FloorSlantGlossy();
-generateMatlabLightMatte();
+// generateMatlabLightMatte();
 // generateMatlabLightGlossy();
-// generateMathematicaLightMatte();
+generateMathematicaLightMatte();

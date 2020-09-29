@@ -319,7 +319,7 @@ function generateScene(group, lights) {
 }
 
 function generateSmallRedSphere() {
-	var sphereGeometry = new THREE.SphereGeometry( 0.1, 32, 32 );
+	var sphereGeometry = new THREE.SphereGeometry( 0.05, 32, 32 );
 	var redMaterial = getRedMaterial();
 	var sphere = new THREE.Mesh(sphereGeometry, redMaterial);
 
