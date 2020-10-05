@@ -95,56 +95,66 @@ function getLocalExtremaInCenter(vertices) {
 	var localMinIndex = 0;
 
 	// approximate center area tracking variables
-	var centerWidth = 150;
-	var centerWidthHalved = Math.floor(centerWidth/4);
-	var startRow = Math.abs(Math.floor(NUM_POINTS / 2 - centerWidth / 2));
-	var endRow = startRow + centerWidth;
+	var numTries = 0;
+	var maxTries = 10;
 
-	// for each index in the approximate center area, get local min index and local max index
-	for (var i = startRow; i < endRow; i++) {
-		for (var j = startRow; j < endRow; j++) {
+	while (localMaxIndex == 0 || localMinIndex == 0) {
+		let centerWidth = 200;
+		let centerWidthHalved = Math.floor(centerWidth/(4 + numTries));
+		let startRow = Math.abs(Math.floor(NUM_POINTS / 2 - centerWidth / 2));
+		let endRow = startRow + centerWidth;
+		
+		// for each index in the approximate center area, get local min index and local max index
+		for (let i = startRow; i < endRow; i++) {
+			for (let j = startRow; j < endRow; j++) {
 
-			// convert from rowXcol to index in vertices list
-			var curIndex = i * NUM_POINTS + j;
+				// convert from rowXcol to index in vertices list
+				let curIndex = i * NUM_POINTS + j;
 
-			// update local min and local max
+				// update local min and local max
 
-			if (vertices[curIndex].z > localMax){
-				localLocalMax = vertices[curIndex].z;
-				for (var y = - centerWidthHalved; y <= centerWidthHalved; y++) {
-					for (var x = - centerWidthHalved; x <= centerWidthHalved; x++) {
-						var curcurIndex = (i + y) * NUM_POINTS + (j + x);
-						
-						if (vertices[curcurIndex].z > localLocalMax) {
-							localLocalMax = vertices[curcurIndex].z;
+				if (vertices[curIndex].z > localMax){
+					localLocalMax = vertices[curIndex].z;
+					for (let y = - centerWidthHalved; y <= centerWidthHalved; y++) {
+						for (let x = - centerWidthHalved; x <= centerWidthHalved; x++) {
+							let curcurIndex = (i + y) * NUM_POINTS + (j + x);
+							
+							if (vertices[curcurIndex].z > localLocalMax) {
+								localLocalMax = vertices[curcurIndex].z;
+							}
 						}
 					}
-				}
 
-				if (localLocalMax == vertices[curIndex].z) {
-					localMax = vertices[curIndex].z;
-					localMaxIndex = curIndex;
-				}
-			}
-	
-			if (vertices[curIndex].z < localMin){
-				localLocalMin = vertices[curIndex].z;
-				for (var y = - centerWidthHalved; y <= centerWidthHalved; y++) {
-					for (var x = - centerWidthHalved; x <= centerWidthHalved; x++) {
-						var curcurIndex = (i + y) * NUM_POINTS + (j + x);
-						
-						if (vertices[curcurIndex].z < localLocalMin) {
-							localLocalMin = vertices[curcurIndex].z;
-						}
+					if (localLocalMax == vertices[curIndex].z) {
+						localMax = vertices[curIndex].z;
+						localMaxIndex = curIndex;
 					}
 				}
-				localMin = vertices[curIndex].z;
-				localMinIndex = curIndex;
+		
+				if (vertices[curIndex].z < localMin){
+					localLocalMin = vertices[curIndex].z;
+					for (let y = - centerWidthHalved; y <= centerWidthHalved; y++) {
+						for (let x = - centerWidthHalved; x <= centerWidthHalved; x++) {
+							let curcurIndex = (i + y) * NUM_POINTS + (j + x);
+							
+							if (vertices[curcurIndex].z < localLocalMin) {
+								localLocalMin = vertices[curcurIndex].z;
+							}
+						}
+					}
+					localMin = vertices[curIndex].z;
+					localMinIndex = curIndex;
+				}
 			}
+		}
+		numTries ++;
+		if (maxTries == numTries) {
+			throw "too many tries for finding local min and local max"
 		}
 	}
 
 	return [localMaxIndex, localMinIndex];
+	
 }
 
 /**
@@ -283,6 +293,7 @@ function generateScene(group, lights) {
 	var renderer = new THREE.WebGLRenderer({
 		preserveDrawingBuffer: true 
 	});
+	// renderer.outputEncoding = THREE.sRGBEncoding; // GAMMA CORRECTION
 
 	camera.position.set(0,0,CAMERA_POSITION);
 	camera.lookAt(0,0,0);
