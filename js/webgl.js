@@ -32,10 +32,9 @@ function sine(amplitude, frequency, phase, t) {
 /**
  * generate preset hills and valleys
  */
-function hillsAndValleys(seed = 1) {
+function hillsAndValleys(amplitude = 1, seed = 1) {
 	noise.seed(seed);
 
-	var amplitude = 0.24;
 	var min = -9.4;
 	var max = 9.4;
 	var range = Math.abs(max - min);
@@ -52,7 +51,7 @@ function hillsAndValleys(seed = 1) {
 			var y = min + increment * j;
 
 			// get height map / z
-			var z = amplitude * noise.simplex2(x / 2.2, y / 2.2);
+			var z = amplitude * noise.simplex2(x / 2.3, y / 2.3);
 
 			vertices.push(new THREE.Vector3(x,y,z));
 		}
@@ -193,19 +192,12 @@ function getMatteMaterial() {
 }
 
 function getGlossyMaterial() {
-	// var material = new THREE.MeshPhongMaterial( 
-	// 	{
-	// 		side: THREE.DoubleSide,
-	// 		color: new THREE.Color(0x7c7c7c),
-	// 		specular: new THREE.Color(0x4c4c4c),
-	// 		shininess: 10,
-	// 	} 
-	// );
 	var material = new THREE.MeshStandardMaterial( 
 		{
 			side: THREE.FrontSide,
-			color: new THREE.Color(0xc0c0c0),
-			roughness: 0.42,
+			color: new THREE.Color(0x797979),
+			roughness: 0.45,
+			metalness: 0
 		} 
 	);
 
@@ -291,28 +283,20 @@ function generateScene(group, lights) {
 	scene.background = new THREE.Color( 0x111111);
 	var camera = new THREE.PerspectiveCamera( CAMERA_FOV, WINDOW_WIDTH/ WINDOW_HEIGHT, 0.1, 1000);
 	var renderer = new THREE.WebGLRenderer({
-		preserveDrawingBuffer: true 
+		preserveDrawingBuffer: true,
+		gammaFactor: 2.2,
+		outputEncoding: THREE.GammaEncoding,
 	});
-	// renderer.outputEncoding = THREE.sRGBEncoding; // GAMMA CORRECTION
 
 	camera.position.set(0,0,CAMERA_POSITION);
 	camera.lookAt(0,0,0);
 	renderer.setSize( WINDOW_WIDTH, WINDOW_HEIGHT);
-
-	// axis helper
-	// var axesHelper = new THREE.AxesHelper( 20 );
-	// scene.add( axesHelper );
-	// document.body.appendChild( renderer.domElement);
 
 	scene.add(group);
 
 	// add our lights
 	for (var i = 0; i < lights.length; i ++) {
 		scene.add(lights[i]);
-
-		// debug light
-		// var helper = new THREE.DirectionalLightHelper( lights[i], 5 ); 
-		// scene.add( helper );
 	}
 
 	function animate() {
@@ -345,13 +329,12 @@ function generateBigRedDisk() {
 	return sphere;
 }
 
-function generateSceneBigDisk( slant, lights, material, choice, seed = 1) {
-	var vertices = hillsAndValleys(seed);
+function generateExperimentScene( amplitude, slant, lights, material, choice, disk, disk_distance, seed = 1) {
+	var vertices = hillsAndValleys(amplitude, seed);
 	var faces = triangulateVertices(vertices);
 	var geometry = geometryConstructorWrapper(vertices, faces);
 	var mesh = new THREE.Mesh(geometry, material);
 	var hillAndValleyIndices = getLocalExtremaInCenter(vertices);
-	var disk = generateBigRedDisk();
 
 	var group = new THREE.Group();
 	group.add(disk);
@@ -367,37 +350,7 @@ function generateSceneBigDisk( slant, lights, material, choice, seed = 1) {
 	mesh.localToWorld(diskLocation);
 	disk.translateX(diskLocation.x);
 	disk.translateY(diskLocation.y);
-	disk.translateZ(diskLocation.z + DISK_DISTANCE);
-
-	return generateScene(group, lights);
-}
-
-
-function generateSceneSmallPip( slant, lights, material, choice, seed = 1) {
-	var vertices = hillsAndValleys(seed);
-	var faces = triangulateVertices(vertices);
-	var geometry = geometryConstructorWrapper(vertices, faces);
-	var mesh = new THREE.Mesh(geometry, material);
-	var hillAndValleyIndices = getLocalExtremaInCenter(vertices);
-	var disk = generateSmallRedSphere();
-
-	var group = new THREE.Group();
-	group.add(disk);
-	group.add(mesh);
-
-	// rotate disk back to be flat and move forward in world Z axis
-	mesh.rotateX(-THREE.Math.degToRad(slant));
-	mesh.geometry.computeVertexNormals();
-	mesh.updateMatrixWorld();
-	let diskLocation = new THREE.Vector3(vertices[hillAndValleyIndices[choice]].x, 
-		vertices[hillAndValleyIndices[choice]].y, 
-		vertices[hillAndValleyIndices[choice]].z);
-	mesh.localToWorld(diskLocation);
-	disk.translateX(diskLocation.x);
-	disk.translateY(diskLocation.y);
-	disk.translateZ(diskLocation.z + PIP_DISTANCE);
-
-	
+	disk.translateZ(diskLocation.z + disk_distance);
 
 	return generateScene(group, lights);
 }
