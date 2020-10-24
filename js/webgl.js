@@ -181,10 +181,10 @@ function getRedMaterial() {
 }
 
 function getMatteMaterial() {
-	var material = new THREE.MeshStandardMaterial( 
+	var material = new THREE.MeshPhongMaterial( 
 		{
 			side: THREE.FrontSide,
-			roughness: 1.0,
+			shininess: 0,
 		} 
 	);
 
@@ -192,12 +192,12 @@ function getMatteMaterial() {
 }
 
 function getGlossyMaterial() {
-	var material = new THREE.MeshStandardMaterial( 
+	var material = new THREE.MeshPhongMaterial( 
 		{
 			side: THREE.FrontSide,
-			color: new THREE.Color(0x797979),
-			roughness: 0.45,
-			metalness: 0
+			color: new THREE.Color(0xB2B2B2),
+			specular: new THREE.Color(0x202020),
+			shininess: 20,
 		} 
 	);
 

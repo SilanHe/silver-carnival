@@ -1,11 +1,11 @@
-var SEED_START = 2500; // there are approximately 50 (x2) images to gen
+var SEED_START = 7000; // there are approximately 50 (x2) images to gen
 var DISK_DISTANCE = 2;
 var PIP_DISTANCE = 0.1;
 var seed = SEED_START;
 var file_extension = ".jpeg"
 
-var amplitude30 = 0.33;
-var amplitude45 = 0.23;
+var amplitude30 = 0.45;
+var amplitude45 = 0.35;
 var amplitude60 = 0.16;
 
 function choiceEnumString(choiceEnum) {
@@ -73,7 +73,6 @@ function generateSingleDirectionalLight30FloorSlantMatte(choiceEnum) {
 
 function generateSingleDirectionalLight45FloorSlantMatte(choiceEnum) {
 	// /* generate all our stimulus ahead of time */
-	seed += 8;
 	amplitude = amplitude45;
 	surfaceSlant = 45;
 
@@ -83,30 +82,20 @@ function generateSingleDirectionalLight45FloorSlantMatte(choiceEnum) {
 	domDirectionalLightTest_45_30_2 = generateExperimentScene( amplitude, surfaceSlant, [getDirectionalLight(30)], getMatteMaterial(), choiceEnum, generateSmallRedSphere(), PIP_DISTANCE, seed);
 	downloadCanvas(domDirectionalLightTest_45_30_2, "DirectionalLightTest_Seed" + seed + choiceEnumString(choiceEnum) + "_Matte_45_30_2" + file_extension);
 	seed ++;
-	domDirectionalLightTest_45_40_1 = generateExperimentScene( amplitude, surfaceSlant, [getDirectionalLight(40)], getMatteMaterial(), choiceEnum, generateBigRedDisk(), DISK_DISTANCE, seed);
-	downloadCanvas(domDirectionalLightTest_45_40_1, "DirectionalLightTest_Seed" + seed + choiceEnumString(choiceEnum) + "_Matte_45_40_1" + file_extension);
-	domDirectionalLightTest_45_40_2 = generateExperimentScene( amplitude, surfaceSlant, [getDirectionalLight(40)], getMatteMaterial(), choiceEnum, generateSmallRedSphere(), PIP_DISTANCE, seed);
-	downloadCanvas(domDirectionalLightTest_45_40_2, "DirectionalLightTest_Seed" + seed + choiceEnumString(choiceEnum) + "_Matte_45_40_2" + file_extension);
-	seed ++;
-	domDirectionalLightTest_45_50_1 = generateExperimentScene( amplitude, surfaceSlant, [getDirectionalLight(50)], getMatteMaterial(), choiceEnum, generateBigRedDisk(), DISK_DISTANCE, seed);
-	downloadCanvas(domDirectionalLightTest_45_50_1, "DirectionalLightTest_Seed" + seed + choiceEnumString(choiceEnum) + "_Matte_45_50_1" + file_extension);
-	domDirectionalLightTest_45_50_2 = generateExperimentScene( amplitude, surfaceSlant, [getDirectionalLight(50)], getMatteMaterial(), choiceEnum, generateSmallRedSphere(), PIP_DISTANCE, seed);
-	downloadCanvas(domDirectionalLightTest_45_50_2, "DirectionalLightTest_Seed" + seed + choiceEnumString(choiceEnum) + "_Matte_45_50_2" + file_extension);
+	domDirectionalLightTest_45_45_1 = generateExperimentScene( amplitude, surfaceSlant, [getDirectionalLight(45)], getMatteMaterial(), choiceEnum, generateBigRedDisk(), DISK_DISTANCE, seed);
+	downloadCanvas(domDirectionalLightTest_45_45_1, "DirectionalLightTest_Seed" + seed + choiceEnumString(choiceEnum) + "_Matte_45_45_1" + file_extension);
+	domDirectionalLightTest_45_45_2 = generateExperimentScene( amplitude, surfaceSlant, [getDirectionalLight(45)], getMatteMaterial(), choiceEnum, generateSmallRedSphere(), PIP_DISTANCE, seed);
+	downloadCanvas(domDirectionalLightTest_45_45_2, "DirectionalLightTest_Seed" + seed + choiceEnumString(choiceEnum) + "_Matte_45_45_2" + file_extension);
 	seed ++;
 	domDirectionalLightTest_45_60_1 = generateExperimentScene( amplitude, surfaceSlant, [getDirectionalLight(60)], getMatteMaterial(), choiceEnum, generateBigRedDisk(), DISK_DISTANCE, seed);
 	downloadCanvas(domDirectionalLightTest_45_60_1, "DirectionalLightTest_Seed" + seed + choiceEnumString(choiceEnum) + "_Matte_45_60_1" + file_extension);
 	domDirectionalLightTest_45_60_2 = generateExperimentScene( amplitude, surfaceSlant, [getDirectionalLight(60)], getMatteMaterial(), choiceEnum, generateSmallRedSphere(), PIP_DISTANCE, seed);
 	downloadCanvas(domDirectionalLightTest_45_60_2, "DirectionalLightTest_Seed" + seed + choiceEnumString(choiceEnum) + "_Matte_45_60_2" + file_extension);
 	seed ++;
-	domDirectionalLightTest_45_70_1 = generateExperimentScene( amplitude, surfaceSlant, [getDirectionalLight(70)], getMatteMaterial(), choiceEnum, generateBigRedDisk(), DISK_DISTANCE, seed);
-	downloadCanvas(domDirectionalLightTest_45_70_1, "DirectionalLightTest_Seed" + seed + choiceEnumString(choiceEnum) + "_Matte_45_70_1" + file_extension);
-	domDirectionalLightTest_45_70_2 = generateExperimentScene( amplitude, surfaceSlant, [getDirectionalLight(70)], getMatteMaterial(), choiceEnum, generateSmallRedSphere(), PIP_DISTANCE, seed);
-	downloadCanvas(domDirectionalLightTest_45_70_2, "DirectionalLightTest_Seed" + seed + choiceEnumString(choiceEnum) + "_Matte_45_70_2" + file_extension);
-	seed ++;
-	domDirectionalLightTest_45_80_1 = generateExperimentScene( amplitude, surfaceSlant, [getDirectionalLight(80)], getMatteMaterial(), choiceEnum, generateBigRedDisk(), DISK_DISTANCE, seed);
-	downloadCanvas(domDirectionalLightTest_45_80_1, "DirectionalLightTest_Seed" + seed + choiceEnumString(choiceEnum) + "_Matte_45_80_1" + file_extension);
-	domDirectionalLightTest_45_80_2 = generateExperimentScene( amplitude, surfaceSlant, [getDirectionalLight(80)], getMatteMaterial(), choiceEnum, generateSmallRedSphere(), PIP_DISTANCE, seed);
-	downloadCanvas(domDirectionalLightTest_45_80_2, "DirectionalLightTest_Seed" + seed + choiceEnumString(choiceEnum) + "_Matte_45_80_2" + file_extension);
+	domDirectionalLightTest_45_75_1 = generateExperimentScene( amplitude, surfaceSlant, [getDirectionalLight(77)], getMatteMaterial(), choiceEnum, generateBigRedDisk(), DISK_DISTANCE, seed);
+	downloadCanvas(domDirectionalLightTest_45_75_1, "DirectionalLightTest_Seed" + seed + choiceEnumString(choiceEnum) + "_Matte_45_75_1" + file_extension);
+	domDirectionalLightTest_45_75_2 = generateExperimentScene( amplitude, surfaceSlant, [getDirectionalLight(77)], getMatteMaterial(), choiceEnum, generateSmallRedSphere(), PIP_DISTANCE, seed);
+	downloadCanvas(domDirectionalLightTest_45_75_2, "DirectionalLightTest_Seed" + seed + choiceEnumString(choiceEnum) + "_Matte_45_75_2" + file_extension);
 	seed ++;
 	domDirectionalLightTest_45_90_1 = generateExperimentScene( amplitude, surfaceSlant, [getDirectionalLight(90)], getMatteMaterial(), choiceEnum, generateBigRedDisk(), DISK_DISTANCE, seed);
 	downloadCanvas(domDirectionalLightTest_45_90_1, "DirectionalLightTest_Seed" + seed + choiceEnumString(choiceEnum) + "_Matte_45_90_1" + file_extension);
@@ -121,7 +110,6 @@ function generateSingleDirectionalLight45FloorSlantMatte(choiceEnum) {
 
 function generateSingleDirectionalLight60FloorSlantMatte(choiceEnum) {
 	/* generate all our stimulus ahead of time */
-	seed += 16;
 	amplitude = amplitude60;
 	surfaceSlant = 60;
 
@@ -154,7 +142,6 @@ function generateSingleDirectionalLight60FloorSlantMatte(choiceEnum) {
 
 function generateSingleDirectionalLight30FloorSlantGlossy(choiceEnum) {
 	/* generate all our stimulus ahead of time */
-	seed += 22;
 	amplitude = amplitude30;
 	surfaceSlant = 30;
 
@@ -192,7 +179,6 @@ function generateSingleDirectionalLight30FloorSlantGlossy(choiceEnum) {
 
 function generateSingleDirectionalLight45FloorSlantGlossy(choiceEnum) {
 	/* generate all our stimulus ahead of time */
-	seed += 28;
 	amplitude = amplitude45;
 	surfaceSlant = 45;
 
@@ -202,30 +188,20 @@ function generateSingleDirectionalLight45FloorSlantGlossy(choiceEnum) {
 	domDirectionalLightTest_45_30_2 = generateExperimentScene( amplitude, surfaceSlant, [getDirectionalLight(30)], getGlossyMaterial(), choiceEnum, generateSmallRedSphere(), PIP_DISTANCE, seed);
 	downloadCanvas(domDirectionalLightTest_45_30_2, "DirectionalLightTest_Seed" + seed + choiceEnumString(choiceEnum) + "_Glossy_45_30_2" + file_extension);
 	seed ++;
-	domDirectionalLightTest_45_40_1 = generateExperimentScene( amplitude, surfaceSlant, [getDirectionalLight(40)], getGlossyMaterial(), choiceEnum, generateBigRedDisk(), DISK_DISTANCE, seed);
-	downloadCanvas(domDirectionalLightTest_45_40_1, "DirectionalLightTest_Seed" + seed + choiceEnumString(choiceEnum) + "_Glossy_45_40_1" + file_extension);
-	domDirectionalLightTest_45_40_2 = generateExperimentScene( amplitude, surfaceSlant, [getDirectionalLight(40)], getGlossyMaterial(), choiceEnum, generateSmallRedSphere(), PIP_DISTANCE, seed);
-	downloadCanvas(domDirectionalLightTest_45_40_2, "DirectionalLightTest_Seed" + seed + choiceEnumString(choiceEnum) + "_Glossy_45_40_2" + file_extension);
-	seed ++;
-	domDirectionalLightTest_45_50_1 = generateExperimentScene( amplitude, surfaceSlant, [getDirectionalLight(50)], getGlossyMaterial(), choiceEnum, generateBigRedDisk(), DISK_DISTANCE, seed);
-	downloadCanvas(domDirectionalLightTest_45_50_1, "DirectionalLightTest_Seed" + seed + choiceEnumString(choiceEnum) + "_Glossy_45_50_1" + file_extension);
-	domDirectionalLightTest_45_50_2 = generateExperimentScene( amplitude, surfaceSlant, [getDirectionalLight(50)], getGlossyMaterial(), choiceEnum, generateSmallRedSphere(), PIP_DISTANCE, seed);
-	downloadCanvas(domDirectionalLightTest_45_50_2, "DirectionalLightTest_Seed" + seed + choiceEnumString(choiceEnum) + "_Glossy_45_50_2" + file_extension);
+	domDirectionalLightTest_45_45_1 = generateExperimentScene( amplitude, surfaceSlant, [getDirectionalLight(45)], getGlossyMaterial(), choiceEnum, generateBigRedDisk(), DISK_DISTANCE, seed);
+	downloadCanvas(domDirectionalLightTest_45_45_1, "DirectionalLightTest_Seed" + seed + choiceEnumString(choiceEnum) + "_Glossy_45_45_1" + file_extension);
+	domDirectionalLightTest_45_45_2 = generateExperimentScene( amplitude, surfaceSlant, [getDirectionalLight(45)], getGlossyMaterial(), choiceEnum, generateSmallRedSphere(), PIP_DISTANCE, seed);
+	downloadCanvas(domDirectionalLightTest_45_45_2, "DirectionalLightTest_Seed" + seed + choiceEnumString(choiceEnum) + "_Glossy_45_45_2" + file_extension);
 	seed ++;
 	domDirectionalLightTest_45_60_1 = generateExperimentScene( amplitude, surfaceSlant, [getDirectionalLight(60)], getGlossyMaterial(), choiceEnum, generateBigRedDisk(), DISK_DISTANCE, seed);
 	downloadCanvas(domDirectionalLightTest_45_60_1, "DirectionalLightTest_Seed" + seed + choiceEnumString(choiceEnum) + "_Glossy_45_60_1" + file_extension);
 	domDirectionalLightTest_45_60_2 = generateExperimentScene( amplitude, surfaceSlant, [getDirectionalLight(60)], getGlossyMaterial(), choiceEnum, generateSmallRedSphere(), PIP_DISTANCE, seed);
 	downloadCanvas(domDirectionalLightTest_45_60_2, "DirectionalLightTest_Seed" + seed + choiceEnumString(choiceEnum) + "_Glossy_45_60_2" + file_extension);
 	seed ++;
-	domDirectionalLightTest_45_70_1 = generateExperimentScene( amplitude, surfaceSlant, [getDirectionalLight(70)], getGlossyMaterial(), choiceEnum, generateBigRedDisk(), DISK_DISTANCE, seed);
-	downloadCanvas(domDirectionalLightTest_45_70_1, "DirectionalLightTest_Seed" + seed + choiceEnumString(choiceEnum) + "_Glossy_45_70_1" + file_extension);
-	domDirectionalLightTest_45_70_2 = generateExperimentScene( amplitude, surfaceSlant, [getDirectionalLight(70)], getGlossyMaterial(), choiceEnum, generateSmallRedSphere(), PIP_DISTANCE, seed);
-	downloadCanvas(domDirectionalLightTest_45_70_2, "DirectionalLightTest_Seed" + seed + choiceEnumString(choiceEnum) + "_Glossy_45_70_2" + file_extension);
-	seed ++;
-	domDirectionalLightTest_45_80_1 = generateExperimentScene( amplitude, surfaceSlant, [getDirectionalLight(80)], getGlossyMaterial(), choiceEnum, generateBigRedDisk(), DISK_DISTANCE, seed);
-	downloadCanvas(domDirectionalLightTest_45_80_1, "DirectionalLightTest_Seed" + seed + choiceEnumString(choiceEnum) + "_Glossy_45_80_1" + file_extension);
-	domDirectionalLightTest_45_80_2 = generateExperimentScene( amplitude, surfaceSlant, [getDirectionalLight(80)], getGlossyMaterial(), choiceEnum, generateSmallRedSphere(), PIP_DISTANCE, seed);
-	downloadCanvas(domDirectionalLightTest_45_80_2, "DirectionalLightTest_Seed" + seed + choiceEnumString(choiceEnum) + "_Glossy_45_80_2" + file_extension);
+	domDirectionalLightTest_45_75_1 = generateExperimentScene( amplitude, surfaceSlant, [getDirectionalLight(75)], getGlossyMaterial(), choiceEnum, generateBigRedDisk(), DISK_DISTANCE, seed);
+	downloadCanvas(domDirectionalLightTest_45_75_1, "DirectionalLightTest_Seed" + seed + choiceEnumString(choiceEnum) + "_Glossy_45_75_1" + file_extension);
+	domDirectionalLightTest_45_75_2 = generateExperimentScene( amplitude, surfaceSlant, [getDirectionalLight(75)], getGlossyMaterial(), choiceEnum, generateSmallRedSphere(), PIP_DISTANCE, seed);
+	downloadCanvas(domDirectionalLightTest_45_75_2, "DirectionalLightTest_Seed" + seed + choiceEnumString(choiceEnum) + "_Glossy_45_75_2" + file_extension);
 	seed ++;
 	domDirectionalLightTest_45_90_1 = generateExperimentScene( amplitude, surfaceSlant, [getDirectionalLight(90)], getGlossyMaterial(), choiceEnum, generateBigRedDisk(), DISK_DISTANCE, seed);
 	downloadCanvas(domDirectionalLightTest_45_90_1, "DirectionalLightTest_Seed" + seed + choiceEnumString(choiceEnum) + "_Glossy_45_90_1" + file_extension);
@@ -240,7 +216,6 @@ function generateSingleDirectionalLight45FloorSlantGlossy(choiceEnum) {
 
 function generateSingleDirectionalLight60FloorSlantGlossy(choiceEnum) {
 	/* generate all our stimulus ahead of time */
-	seed += 37;
 	amplitude = amplitude60;
 	surfaceSlant = 60;
 
@@ -273,7 +248,6 @@ function generateSingleDirectionalLight60FloorSlantGlossy(choiceEnum) {
 
 function generateMatlabLightMatte(choiceEnum) {
 	/* generate all our stimulus ahead of time */
-	seed += 42;
 
 	seed ++;
 	domMatlabLightTest_30_1 = generateExperimentScene( amplitude30,30, [getMatlabLight()], getMatteMaterial(), choiceEnum, generateBigRedDisk(), DISK_DISTANCE, seed);
@@ -294,7 +268,6 @@ function generateMatlabLightMatte(choiceEnum) {
 
 function generateMatlabLightGlossy(choiceEnum) {
 	/* generate all our stimulus ahead of time */
-	seed += 45;
 
 	seed ++;
 	domMatlabLightTest_30_1 = generateExperimentScene( amplitude30,30, [getMatlabLight()], getGlossyMaterial(), choiceEnum, generateBigRedDisk(), DISK_DISTANCE, seed);
@@ -315,7 +288,6 @@ function generateMatlabLightGlossy(choiceEnum) {
 
 function generateMathematicaLightMatte(choiceEnum) {
 	/* generate all our stimulus ahead of time */
-	seed += 49;
 
 	seed ++;
 	domMathematicaLightTest_30_1 = generateExperimentScene( amplitude30,30, getMathematicaLights(), getMatteMaterial(), choiceEnum, generateBigRedDisk(), DISK_DISTANCE, seed);
